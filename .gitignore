@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 VT_APIKey
+Talos_APIKey
+HIBP_APIKey
 # C extensions
 *.so
 
