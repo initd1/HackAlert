@@ -1,115 +1,68 @@
-from Common.utils import getVT_APIKey
-
+from Common import utils as utils
+from Common.utils import KeyFetcher
+from Common.utils import Validator
 import requests
 import json
 import time
 
+# IPReputationChecker class inherits methods from BreachChecker super class
 class IPReputationChecker:
-  def __init__(self):
-    self.bad_ip_list = []
+    def __init__(self, ip_address):
+        self.ip_address = ip_address
 
   # Check Virus Total IP reputation
-  def checkIPReputationVT(self, ip_list):
-    # Check IP reputation from Virus Total
-    # https://www.virustotal.com/gui/ip-address/
-    pass
-  
-  # Check Talos IP reputation
-  def checkIPReputationTalos(self, ip_list):
-    # Check IP reputation from Cisco Talos
-    # https://talosintelligence.com/reputation_center/lookup?search=
-    # User requests to check IP reputation from Cisco Talos
-    print("Checking IP reputation from Cisco Talos")
-    for ip in ip_list:
-      url = "https://talosintelligence.com/reputation_center/lookup?search="+ip
-      response = requests.request("GET", url).text
-      if "This IP address has been observed to be associated with malicious activity." in response:
-        print("IP: "+ip+" is malicious")
-        self.bad_ip_list.append(ip)
-      else:
-        print("IP: "+ip+" is not malicious")
-# Function to run the script
-# def run_script():
-#   file, apikey = get_input()
-#   # fail script if no input is given
-#   if not get_input():
-#     print("No input given")
-#     help()
-#     exit()
-#   if check_input(file, apikey):
-#     print("Running script")
-#     ip_list = []
-#     bad_ip_list = []
-#     file = open(file)
-#     for ip in file:
-#       ip = ip.strip("\n")
-#       ip_list.append(ip)
-#     file.close()
-    
-#     # Due to API license limitation, only 4 IPs can be queries in a minute
-#     while len(ip_list) > 0:
-#       # Get IP list in groups of 4 IPs at a time
-#       ip_quad = ip_list[:4]
+    def checkIPReputationVT(self, ip_address):
+        # FETCH VT API KEY
+        keyfetch_vt = KeyFetcher()
+        vtkey = keyfetch_vt.getVTAPIKey()
+        
+        # Instantiate validator class
+        validator = Validator()
+        validator.check_VTAPIkey(vtkey)
 
-#       # Send the IP quad to be queried by the API 
-#       response = queryIP(apikey, ip_quad, bad_ip_list)
-#       # Delete the processed IP quad
-#       del ip_list[:4]
+        # Code to check IP reputation from Virus Total
+        print("Checking IP reputation from Virus Total for ip: ", ip_address)
+        # Check IP reputation from Virus Total
+        # https://www.virustotal.com/gui/ip-address/+vtkey
+        results="dummy result as placeholder"
+        return results
 
-#       if len(ip_list) > 0:
-#         print("Sleeping 60 seconds due to API license limitation")
-#         time.sleep(60)
-#   else:
-#     print("Invalid input")
-#     help()
+    # Check Talos IP reputation
+    def checkIPReputationTalos(self, ip_list):
+        # Check IP reputation from Cisco Talos
+        # https://talosintelligence.com/reputation_center/lookup?search=
+        # User requests to check IP reputation from Cisco Talos
+        print("Checking IP reputation from Cisco Talos")
+        for ip in ip_list:
+            url = "https://talosintelligence.com/reputation_center/lookup?search="+ip
+            response = requests.request("GET", url).text
+            if "This IP address has been observed to be associated with malicious activity." in response:
+                print("IP: "+ip+" is malicious")
+                self.bad_ip_list.append(ip)
+            else:
+                print("IP: "+ip+" is not malicious")
 
-def queryIP(apikey, ip_quad, bad_ip_list):
-  vt_api = apikey
-  for ip in ip_quad:
-    url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip
-    payload={}
-    headers = {
-      'x-apikey': vt_api
-    }
-    # catch error if below line fails
-    # query api and get response. If query fails, catch the error and print the error
-    try:
-      response = requests.request("GET", url, headers=headers, data=payload).text
+# ==================
+    def queryIP(apikey, ip_quad, bad_ip_list):
+        vt_api = apikey
+        for ip in ip_quad:
+            url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip
+            payload={}
+            headers = {
+            'x-apikey': vt_api
+            }
+            # catch error if below line fails
+            # query api and get response. If query fails, catch the error and print the error
+        try:
+            response = requests.request("GET", url, headers=headers, data=payload).text
 
-      data = json.loads(response)
-      stats = data['data']['attributes']['last_analysis_stats']
-      print("Results of IP ==>",ip,":", stats)
-      if stats['malicious'] > 0 or stats['suspicious'] > 0 :
-        bad_ip_list.append(ip)
-      return bad_ip_list
-    except:
-      print("Error querying API")
-      # print the error
-      print(response)
-      exit()
-
-# if __name__ == "__main__":
-
-  # Run the script
-  # run_script()
-
-  # print("\n\n=============VirusTotal IP Reputation Results=============") 
-  # for bad_ip in bad_ip_list:
-  #   print(bad_ip)
-  # print("\n")
-
-  # # Unit test to check if the script is working as expected
-  # def test():
-  #   file = "badips.txt"
-  #   apikey = "1234567890"
-  #   if check_input(file, apikey):
-  #     print("Test passed")
-  #   else:
-  #     print("Test failed")
-  
-  # # Run the unit test
-  # test()
-
-# create a sample file with IPs
-# file = open("badips.txt", "w")
-# file.write("12.
+            data = json.loads(response)
+            stats = data['data']['attributes']['last_analysis_stats']
+            print("Results of IP ==>",ip,":", stats)
+            if stats['malicious'] > 0 or stats['suspicious'] > 0 :
+                bad_ip_list.append(ip)
+            return bad_ip_list
+        except:
+            print("Error querying API")
+            print(response)
+            exit()
