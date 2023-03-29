@@ -3,7 +3,7 @@ import requests
 import json
 import argparse
 from Common.utils import Validator
-from IPReputation.ip_reputation_checker import IPReputationChecker
+from IP.ip_reputation_checker import IPReputationChecker
 from Common import utils
 
 def accept_user_input():
