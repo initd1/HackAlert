@@ -15,16 +15,25 @@ class IPReputationChecker:
         # FETCH VT API KEY
         keyfetch_vt = KeyFetcher()
         vtkey = keyfetch_vt.getVTAPIKey()
+        # print('VTKEY in IPReputationChecker: ', vtkey)
         
         # Instantiate validator class
         validator = Validator()
         validator.check_VTAPIkey(vtkey)
 
         # Code to check IP reputation from Virus Total
-        print("Checking IP reputation from Virus Total for ip: ", ip_address)
+        print("Checking IP reputation from Virus Total for ip:", ip_address)
         # Check IP reputation from Virus Total
-        # https://www.virustotal.com/gui/ip-address/+vtkey
-        results="dummy result as placeholder"
+        url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip_address
+        payload={}
+        headers = {
+        'x-apikey': vtkey
+        }
+        response = requests.request("GET", url, headers=headers, data=payload).text
+        data = json.loads(response)
+        # pretty print full json response
+        # print(json.dumps(data, indent=4, sort_keys=True))
+        results=data['data']['attributes']['total_votes']
         return results
 
     # Check Talos IP reputation

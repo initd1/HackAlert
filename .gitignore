@@ -5,6 +5,7 @@ __pycache__/
 VT_APIKey
 Talos_APIKey
 HIBP_APIKey
+Config/config.ini
 # C extensions
 *.so
 

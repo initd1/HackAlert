@@ -7,6 +7,9 @@ import requests
 import json
 import re
 import ipaddress
+import sys
+import configparser
+from . import utils
 
 def help():
     print("Usage: python3 main.py --<artifact to check> <artifact>")
@@ -15,11 +18,12 @@ def help():
     exit()
 
 def error_message(errormsg):
-    print("Error:", {errormsg})
-    # help()
+    print("\033[91m{}\033[0m".format("Error:"), errormsg)
+    # TODO: Extend error module to log to error log file
+    # print(errormsg)
 
 def exit_message(exitmsg):
-    print(f"Fatal Error:", {exitmsg})
+    print("\033[91m{}\033[0m".format("Fatal Error: "+exitmsg))
     exit()
 
 class Validator:
@@ -27,10 +31,9 @@ class Validator:
          # Verify email format
          # TODO: Add a list of email domains accepted..may be
         if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            print("Input is a valid email address.")
+            print("Email address validation: \033[92m{}\033[0m".format("Success"))
             return True
         else:
-            # print("Invalid email address.")
             return False
 
     def is_valid_ip(self, ip):
@@ -50,29 +53,27 @@ class Validator:
         'x-apikey': VT_APIKey
         }
         response = requests.request("GET", url, headers=headers, data=payload).text
-        # Print json in a well formatted form
-        # print(json.dumps(json.loads(response), indent=4, sort_keys=True))
         data = json.loads(response)
-        # if data['error']['code'] == 'WrongCredentialsError':
-        #     er = "Virus Total Key Validation:", data['error']['code']
-        if data['error']['code']:
-            error_message(data['error']['code'])
-            return False
-        else:
+        if 'error' not in data:
+            # Print pretty json response
+            # print(json.dumps(data, indent=4, sort_keys=True))
+            print("Virus Total Key Validation: \033[92m{}\033[0m".format("Success"))
             return True
-
+        else:
+            error_message(json.dumps(data['error'], indent=4, sort_keys=True))
+            exit_message("Virus Total Key Validation failed")
+            return False
 
 class KeyFetcher:
     def getVTAPIKey(self):
-        # Read the line in the file VT_APIKey and store as a variable called VT_APIKey
         try:
-            VT_APIKey = open('VT_APIKey', 'r').readline().strip()
-            print('VT_APIKey: ' + VT_APIKey)
+            config = configparser.ConfigParser()
+            config.read('Config/config.ini')
+            # Get the Virus Total API key from the config file
+            VT_APIKey = config['APIKeys']['VT_APIKey']
             return VT_APIKey
-        except:
-            # print("Error reading VT_APIKey file. Please check if the file exists and has the correct API key")
-            exit_message("Error reading VT_APIKey file. Please check if the file exists and has the correct API key")
-            # return False
+        except Exception as er:
+            utils.error_message(er)
 
     def getOTXAPIKey(self):
         # Read the line in the file OTX_APIKey and store as a variable called OTX_APIKey
