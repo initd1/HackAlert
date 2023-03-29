@@ -21,6 +21,3 @@ class BreachChecker:
             return True
         except ValueError as err:
             return False
-
- 
-
