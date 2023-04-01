@@ -12,14 +12,7 @@ import sys
 import configparser
 from . import utils
 
-# def help():Email address validation:
-#     print("Usage: python3 main.py --<artifact to check> <artifact>")
-#     print("Example: python3 main.py --email bill.g@gmail.com")
-#     print("Example: python3 main.py --ip 201.122.41.15")
-#     exit()
-
 def error_message(errormsg):
-    # print("\033[91m{}\033[0m".format("Error:"), errormsg)
     print(colored("Error: "+errormsg, 'red'))
     # TODO: Extend error module to log to error log file
     # print(errormsg)

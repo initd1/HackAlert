@@ -16,7 +16,6 @@ class EmailBreachChecker:
     def periodicBreachDownloader(self):
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
-        # print('HIBPKEY in EmailBreachChecker: ', hibp_key)
         url = "https://haveibeenpwned.com/api/v3/breaches"
         payload={}
         headers = {
@@ -27,7 +26,6 @@ class EmailBreachChecker:
         try:
             response = requests.get(url, headers=headers, data=payload).text
             print(colored("Downloading full breach data from HIBP ...","grey"))
-            # print("Response: ", response)
             breaches = json.loads(response)
             with open('all_breaches.json', 'w') as f:
                 json.dump(breaches, f)
@@ -36,12 +34,8 @@ class EmailBreachChecker:
 
     # Function to check email for breaches from HIBP
     def checkEmailBreach(self, email):
-        # Create instance of KeyFetcher class
         keyfetcher = KeyFetcher()
-        # Get HIBP API key from KeyFetcher class
         hibp_key = keyfetcher.getHIBPAPIKey()
-        # Code to check Email reputation from HIBP
-        # print("Checking Email breach from HIBP for email:", email)
         # Check Email breach from HIBP
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/"+email
         payload={}
@@ -55,20 +49,10 @@ class EmailBreachChecker:
             data = json.loads(response)
         except requests.exceptions.RequestException as e:
             utils.error_message(e)
-            # sys.exit(1)
-        # pretty print full json response
-        # print(json.dumps(data, indent=4, sort_keys=True))
-        # Loop through each breach name
         for breach_name in data:
-            # print("Breach name: ", breach_name['Name'])
-            # Open all breaches file
             with open('all_breaches.json', 'r')  as f:
                 search_name = breach_name['Name']
-                # print("Searching for breach name: ", search_name)
-                # Load all breaches into a variable
                 breaches = json.load(f) 
-                # print(breaches)
-                # Loop through each breach
                 for breach in breaches:
                     # If breach name matches search name then print details about breach
                     if breach['Name'] == search_name:
@@ -82,4 +66,3 @@ class EmailBreachChecker:
                         else:
                             print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
                         print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
-    # return data
