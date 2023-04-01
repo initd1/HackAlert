@@ -6,6 +6,7 @@ VT_APIKey
 Talos_APIKey
 HIBP_APIKey
 Config/config.ini
+settings.json
 # C extensions
 *.so
 

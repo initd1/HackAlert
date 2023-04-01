@@ -7,18 +7,20 @@ import requests
 import json
 import re
 import ipaddress
+from termcolor  import colored
 import sys
 import configparser
 from . import utils
 
-def help():
-    print("Usage: python3 main.py --<artifact to check> <artifact>")
-    print("Example: python3 main.py --email bill.g@gmail.com")
-    print("Example: python3 main.py --ip 201.122.41.15")
-    exit()
+# def help():Email address validation:
+#     print("Usage: python3 main.py --<artifact to check> <artifact>")
+#     print("Example: python3 main.py --email bill.g@gmail.com")
+#     print("Example: python3 main.py --ip 201.122.41.15")
+#     exit()
 
 def error_message(errormsg):
-    print("\033[91m{}\033[0m".format("Error:"), errormsg)
+    # print("\033[91m{}\033[0m".format("Error:"), errormsg)
+    print(colored("Error: "+errormsg, 'red'))
     # TODO: Extend error module to log to error log file
     # print(errormsg)
 
@@ -31,7 +33,7 @@ class Validator:
          # Verify email format
          # TODO: Add a list of email domains accepted..may be
         if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            print("Email address validation: \033[92m{}\033[0m".format("Success"))
+            # print("Email address validation: \033[92m{}\033[0m".format("Success"))
             return True
         else:
             return False
@@ -64,6 +66,11 @@ class Validator:
             exit_message("Virus Total Key Validation failed")
             return False
 
+    # def check_VTAPIkey(self, VT_APIKey):
+        # instead of wasting a call to HIBP API just to check validity of key, 
+        # execute the call for the actual query and then throw error if key is 
+        # invalid (since likelihood of key being wrong is slim)
+
 class KeyFetcher:
     def getVTAPIKey(self):
         try:
@@ -75,21 +82,22 @@ class KeyFetcher:
         except Exception as er:
             utils.error_message(er)
 
-    def getOTXAPIKey(self):
-        # Read the line in the file OTX_APIKey and store as a variable called OTX_APIKey
-        try:
-            OTX_APIKey = open('OTX_APIKey', 'r').readline().strip()
-            print('OTX_APIKey: ' + OTX_APIKey)
-            return OTX_APIKey
-        except:
-            print("Error reading OTX_APIKey file. Please check if the file exists and has the correct API key")
-            exit()
-
     def getHIBPAPIKey(self):
         try:
-            HIBP_APIKey = open('HIBP_APIKey', 'r').readline().strip()
-            print('HIBP_APIKey: ' + HIBP_APIKey)
+            config = configparser.ConfigParser()
+            config.read('Config/config.ini')
+            # Get the Virus Total API key from the config file
+            HIBP_APIKey = config['APIKeys']['HIBP_APIKey']
             return HIBP_APIKey
-        except:
-            print("Error reading HIBP_APIKey file. Please check if the file exists and has the correct API key")
-            exit()
+        except Exception as er:
+            utils.error_message(er)
+
+    # def getOTXAPIKey(self):
+    #     # Read the line in the file OTX_APIKey and store as a variable called OTX_APIKey
+    #     try:
+    #         OTX_APIKey = open('OTX_APIKey', 'r').readline().strip()
+    #         print('OTX_APIKey: ' + OTX_APIKey)
+    #         return OTX_APIKey
+    #     except:
+    #         print("Error reading OTX_APIKey file. Please check if the file exists and has the correct API key")
+    #         exit()
