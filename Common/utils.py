@@ -44,7 +44,17 @@ class Validator:
             return True
         except ValueError as err:
             return False
-        
+
+    def is_valid_username(self, username):
+         # Verify username format
+         # TODO: Add a list of username domains accepted..may be
+        if re.match(r"^[a-zA-Z0-9\-\_\!\@\#\$\%\^\&\*\(\)]+", username):
+            print("Input is a valid username")
+            return True
+        else:
+            # print("Invalid username ")
+            return False
+
     # Function to check if the VT API key is valid
     def check_VTAPIkey(self, VT_APIKey):
         # Google IP just for validating key
