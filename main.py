@@ -35,7 +35,7 @@ def accept_user_input():
             breach_checker = EmailBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
             breach_results = breach_checker.checkEmailBreach(args.email)
-            print("Email breach checker module results:", breach_results)
+            # print("Email breach checker module results:", breach_results)
             # return args.email
         else:
             utils.exit_message("Invalid email address")

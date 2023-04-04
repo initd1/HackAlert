@@ -38,7 +38,7 @@ class EmailBreachChecker:
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
         # Code to check Email reputation from HIBP
-        print("Checking Email breach from HIBP for email:", email)
+        # print("Checking Email breach from HIBP for email:", email)
         # Check Email breach from HIBP
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/"+email
         payload={}
@@ -55,7 +55,7 @@ class EmailBreachChecker:
             # print("Breach name: ", breach_name['Name'])
             with open('all_breaches.json', 'r')  as f:
                 search_name = breach_name['Name']
-                print("Searching for breach name: ", search_name)
+                # print("Searching for breach name: ", search_name)
                 breaches = json.load(f) 
                 # print(breaches)
                 for breach in breaches:
