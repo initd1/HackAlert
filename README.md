@@ -2,8 +2,9 @@
 
 ## Installation instructions
 1. Clone the github repository
+`git clone https://github.com/initd1/Cyber-Breach-Detector.git`
 
-### Emvironment Set-up
+### Environment Set-up
 
 1. Install python-pip in your environment
 2. Install virtualenv
