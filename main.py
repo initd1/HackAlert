@@ -30,8 +30,7 @@ def accept_user_input():
         if validator.is_valid_email(args.email) == True:
             # print(args.email)
             # Call the email module to check if the email is in a breach
-            print(colored("Email Validation:","grey"),colored("Success","green"))
-            
+            print("Email Validation : \033[92m{}\033[0m".format("Success"))     
             # Instantiate IPReputationChecker class
             breach_checker = EmailBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
