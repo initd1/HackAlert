@@ -1,7 +1,8 @@
 
-import requests
+# import requests
 import json
 import argparse
+from termcolor import colored
 from Common.utils import Validator
 from IP.ip_reputation_checker import IPReputationChecker
 from Email.email_reputation_checker import EmailBreachChecker
@@ -27,10 +28,9 @@ def accept_user_input():
 
     if args.email:
         if validator.is_valid_email(args.email) == True:
-            print(args.email)
+            # print(args.email)
             # Call the email module to check if the email is in a breach
-            print("Email Validation : \033[92m{}\033[0m".format("Success"))
-            
+            print("Email Validation : \033[92m{}\033[0m".format("Success"))     
             # Instantiate IPReputationChecker class
             breach_checker = EmailBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()

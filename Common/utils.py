@@ -7,18 +7,20 @@ import requests
 import json
 import re
 import ipaddress
+from termcolor  import colored
 import sys
 import configparser
 from . import utils
 
-def help():
-    print("Usage: python3 main.py --<artifact to check> <artifact>")
-    print("Example: python3 main.py --email bill.g@gmail.com")
-    print("Example: python3 main.py --ip 201.122.41.15")
-    exit()
+# def help():Email address validation:
+#     print("Usage: python3 main.py --<artifact to check> <artifact>")
+#     print("Example: python3 main.py --email bill.g@gmail.com")
+#     print("Example: python3 main.py --ip 201.122.41.15")
+#     exit()
 
 def error_message(errormsg):
-    print("\033[91m{}\033[0m".format("Error:"), errormsg)
+    # print("\033[91m{}\033[0m".format("Error:"), errormsg)
+    print(colored("Error: "+errormsg, 'red'))
     # TODO: Extend error module to log to error log file
     # print(errormsg)
 
@@ -31,7 +33,7 @@ class Validator:
          # Verify email format
          # TODO: Add a list of email domains accepted..may be
         if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            print("Email address validation: \033[92m{}\033[0m".format("Success"))
+            # print("Email address validation: \033[92m{}\033[0m".format("Success"))
             return True
         else:
             return False
