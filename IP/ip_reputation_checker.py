@@ -11,16 +11,11 @@ class IPReputationChecker:
 
   # Check Virus Total IP reputation
     def checkIPReputationVT(self, ip_address):
-        # FETCH VT API KEY
         keyfetch_vt = KeyFetcher()
         vtkey = keyfetch_vt.getVTAPIKey()
-        # print('VTKEY in IPReputationChecker: ', vtkey)
-        
-        # Instantiate validator class
         validator = Validator()
         validator.check_VTAPIkey(vtkey)
 
-        # Code to check IP reputation from Virus Total
         print("Checking IP reputation from Virus Total for ip:", ip_address)
         # Check IP reputation from Virus Total
         url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip_address
