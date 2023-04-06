@@ -5,8 +5,6 @@ from Common import utils as utils
 from Common.utils import KeyFetcher
 from Common.breach_checker import BreachChecker
 
-
-# EmailReputationChecker class inherits methods from BreachChecker super class
 class EmailBreachChecker:
     def __init__(self, email):
         self.email = email
