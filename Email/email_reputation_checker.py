@@ -1,6 +1,5 @@
 import requests
 import json
-from termcolor import colored
 from Common import utils as utils
 from Common.utils import KeyFetcher
 from Common.breach_checker import BreachChecker
@@ -26,6 +25,7 @@ class EmailBreachChecker:
         try:
             response = requests.get(url, headers=headers, data=payload).text
             print(colored("Downloading full breach data from HIBP ...","grey"))
+            print("Downloading full breach data from HIBP")
             breaches = json.loads(response)
             with open('all_breaches.json', 'w') as f:
                 json.dump(breaches, f)
@@ -48,13 +48,14 @@ class EmailBreachChecker:
             response = requests.get(url, headers=headers, data=payload).text
             data = json.loads(response)
         except requests.exceptions.RequestException as e:
-            utils.error_message(e)
+            utils.error_message(e) 
         for breach_name in data:
+            # print("Breach name: ", breach_name['Name'])
             with open('all_breaches.json', 'r')  as f:
                 search_name = breach_name['Name']
+                # print("Searching for breach name: ", search_name)
                 breaches = json.load(f) 
                 for breach in breaches:
-                    # If breach name matches search name then print details about breach
                     if breach['Name'] == search_name:
                         print("\n\n" + colored("Account name:", "blue"), colored(email, "red"))
                         print(colored("Breach name:", "blue"), colored(breach_name['Name'], "red"))
