@@ -78,7 +78,8 @@ class EmailBreachChecker:
                                 print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green"))
                             if 'IsVerified' in breach  and breach['IsVerified'] == False:
                                 print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
-                            print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
+                            # print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
+                            print(colored("Number of accounts compromised:", "blue"), colored('{:,}'.format(breach['PwnCount']), "white"))
                         else:
                             pass
         else:
