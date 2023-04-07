@@ -71,7 +71,7 @@ def accept_user_input():
             # print("username breach checker module results:", breach_results)
             # return args.username
         else:
-            utils.exit_message("Invalid username address")
+            utils.exit_message("Invalid username")
     else:
         utils.error_message("Invalid input received.")
 
