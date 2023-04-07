@@ -11,12 +11,11 @@ class usernameBreachChecker:
     def __init__(self, username):
         self.username = username
 
-    # Function to periodically download full breach data from HIBP so it can be 
-    # used to lookup further details of a breach when an IP/username is found in the breach data
+    # Method to periodically download full breach data from HIBP so it can be 
+    # used to lookup further details of a breach when an IP/Email is found in the breach data
     def periodicBreachDownloader(self):
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
-        # print('HIBPKEY in usernameBreachChecker: ', hibp_key)
         url = "https://haveibeenpwned.com/api/v3/breaches"
         payload={}
         headers = {
@@ -26,23 +25,17 @@ class usernameBreachChecker:
         }
         try:
             response = requests.get(url, headers=headers, data=payload).text
-            print(colored("Downloading full breach data from HIBP ...","grey"))
-            # print("Response: ", response)
+            print("Downloading full breach data from HIBP")
             breaches = json.loads(response)
             with open('all_breaches.json', 'w') as f:
                 json.dump(breaches, f)
         except Exception as e:
-            utils.error_message("Downloading all breaches failed",e)
+            utils.error_message(str(e))
 
     # Function to check username for breaches from HIBP
     def checkUsernameBreach(self, username):
-        # Create instance of KeyFetcher class
         keyfetcher = KeyFetcher()
-        # Get HIBP API key from KeyFetcher class
         hibp_key = keyfetcher.getHIBPAPIKey()
-        # Code to check username reputation from HIBP
-        # print("Checking username breach from HIBP for username:", username)
-        # Check username breach from HIBP
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/"+username
         payload={}
         headers = {
@@ -51,35 +44,44 @@ class usernameBreachChecker:
         'Content-Type': 'application/json'
         }
         try:
-            response = requests.get(url, headers=headers, data=payload).text
-            data = json.loads(response)
-        except requests.exceptions.RequestException as e:
-            utils.error_message(e)
-            # sys.exit(1)
-        # pretty print full json response
-        # print(json.dumps(data, indent=4, sort_keys=True))
-        # Loop through each breach name
-        for breach_name in data:
-            print("Breach name: ", breach_name['Name'])
-            # Open all breaches file
-            with open('all_breaches.json', 'r')  as f:
-                search_name = breach_name['Name']
-                # print("Searching for breach name: ", search_name)
-                # Load all breaches into a variable
-                breaches = json.load(f) 
-                # print(breaches)
-                # Loop through each breach
-                for breach in breaches:
-                    # If breach name matches search name then print details about breach
-                    if breach['Name'] == search_name:
-                        print("\n\n" + colored("Username:", "blue"), colored(username, "red"))
-                        print(colored("Breach name:", "blue"), colored(breach_name['Name'], "red"))
-                        print(colored("Breach description:", "blue"), colored(breach['Description'], "red"))
-                        print(colored("Data classes that were part of this breach:", "blue"), colored(breach['DataClasses'], "red"))
-                        print(colored("Breach date:", "blue"), colored(breach['BreachDate'], "white"))
-                        if breach['isVerified'] == True:
-                            print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green"))
+            response = requests.get(url, headers=headers, data=payload)
+        except Exception as e:
+            utils.error_message(e.text)
+        if response.status_code == 404:
+            print(colored("No breaches found for this username","green"))
+            exit()
+        data = json.loads(response.text)
+        # Validating the response during execution instead of wasting a call for validation
+        if 'statusCode' not in data:
+            # print("Query successful")
+            for breach_name in data:
+            # print("Breach name: ", breach_name['Name'])
+                with open('all_breaches.json', 'r')  as f:
+                    search_name = breach_name['Name']
+                    # print("Searching for breach name: ", search_name)
+                    breaches = json.load(f) 
+                    # print(breaches)
+                    for breach in breaches:
+                        if 'Name' in breach and breach['Name'] == search_name:
+                            print("\n\n" + colored("Account name:", "blue"), colored(username, "red"))
+                            if 'Name' in breach:
+                                print(colored("Breach name:", "blue"), colored(breach_name['Name'], "red"))
+                            if 'Description' in breach:
+                                print(colored("Breach description:", "blue"), colored(breach['Description'], "red"))
+                            if 'BreachDate' in breach:
+                                print(colored("Breach date:", "blue"), colored(breach['BreachDate'], "white"))
+                            if 'DataClasses' in breach:
+                                print(colored("Data classes that were part of this breach:", "blue"), colored(breach['DataClasses'], "red"))
+                            if 'IsSensitive' in breach and breach['IsSensitive'] == True:
+                                print(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "yellow"))
+                            if 'IsSensitive' in breach and breach['IsSensitive'] == False:
+                                print(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "green"))
+                            if 'IsVerified' in breach and breach['IsVerified'] == True:
+                                print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green"))
+                            if 'IsVerified' in breach  and breach['IsVerified'] == False:
+                                print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
+                            print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
                         else:
-                            print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
-                        print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
-    # return data
+                            pass
+        else:
+            utils.error_message(data['message'])
