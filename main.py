@@ -57,7 +57,7 @@ def accept_user_input():
             # print("OTX results:",otx_results)
         else:
             utils.error_message("Invalid IP address")
-    if args.username:
+    elif args.username:
         if validator.is_valid_username(args.username) == True:
             # print(args.username)
             # Call the username module to check if the username is in a breach
