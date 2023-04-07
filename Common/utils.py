@@ -66,24 +66,40 @@ class Validator:
 
 class KeyFetcher:
     def getVTAPIKey(self):
+
+        config = configparser.ConfigParser()
+        
+        if config.read('Config/config.ini'):
+            pass
+        else:
+            exit_message("Config file not found")
         try:
-            config = configparser.ConfigParser()
-            config.read('Config/config.ini')
-            # Get the Virus Total API key from the config file
             VT_APIKey = config['APIKeys']['VT_APIKey']
-            return VT_APIKey
         except Exception as er:
-            utils.error_message(er)
+            error_message(str(er))
+            exit_message("VT API Key not found in config file")
+        if VT_APIKey == '':
+            exit_message("VT API Key could not be retrieved")
+        else:
+            return VT_APIKey
 
     def getHIBPAPIKey(self):
+
+        config = configparser.ConfigParser()
+        if config.read('Config/config.ini'):
+            # print("Reading config file...")
+            pass
+        else:
+            exit_message("Config file not found")
         try:
-            config = configparser.ConfigParser()
-            config.read('Config/config.ini')
-            # Get the Virus Total API key from the config file
             HIBP_APIKey = config['APIKeys']['HIBP_APIKey']
-            return HIBP_APIKey
         except Exception as er:
-            utils.error_message(er)
+            error_message(str(er))
+            exit_message("HIBP API Key not found in config file")
+        if HIBP_APIKey == '':
+            exit_message("HIBP API Key could not be retrieved")
+        else:
+            return HIBP_APIKey
 
     # def getOTXAPIKey(self):
     #     # Read the line in the file OTX_APIKey and store as a variable called OTX_APIKey
