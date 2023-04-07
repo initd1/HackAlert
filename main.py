@@ -3,10 +3,11 @@
 import json
 import argparse
 from termcolor import colored
+from Common import utils
 from Common.utils import Validator
 from IP.ip_reputation_checker import IPReputationChecker
 from Email.email_reputation_checker import EmailBreachChecker
-from Common import utils
+from Username.username_reputation_checker import usernameBreachChecker
 
 def accept_user_input():
     # Instantiate the Validator class
@@ -17,12 +18,13 @@ def accept_user_input():
         parser = argparse.ArgumentParser(description="Check if the given data has been compromised in a data breach.")
         parser.add_argument("-e", "--email", help="Email address to check")
         parser.add_argument("-i", "--ip", help="IP address to check")
+        parser.add_argument("-u", "--username", help="Username to check")
         args = parser.parse_args()
     except Exception as er:
         # print(er)
         utils.error_message(er)
     
-    # TODO: Find a way to invoke each module in parallel if they are provided:
+    # TODO: #9 Find a way to invoke each module in parallel if they are provided:
     # Example: python3 main.py -e asd@d.com -i 1.1.1.1
     # It would have to call email and IP modules and serve the results from each module
 
@@ -55,6 +57,20 @@ def accept_user_input():
             # print("OTX results:",otx_results)
         else:
             utils.error_message("Invalid IP address")
+    if args.username:
+        if validator.is_valid_username(args.username) == True:
+            # print(args.username)
+            # Call the username module to check if the username is in a breach
+            print(colored("Username Validation:","grey"),colored("Success","green"))
+            
+            # Instantiate IPReputationChecker class
+            breach_checker = usernameBreachChecker(args.ip)
+            breach_checker.periodicBreachDownloader()
+            breach_results = breach_checker.checkUsernameBreach(args.username)
+            # print("username breach checker module results:", breach_results)
+            # return args.username
+        else:
+            utils.exit_message("Invalid username")
     else:
         utils.error_message("Invalid input received.")
 
