@@ -1,4 +1,3 @@
-from re import Match
 import unittest
 import sys
 import os
