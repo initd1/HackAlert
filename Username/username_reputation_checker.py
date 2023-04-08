@@ -1,9 +1,12 @@
+import sys
 import requests
 import json
 from termcolor import colored
 from Common import utils as utils
 from Common.utils import KeyFetcher
-from Common.breach_checker import BreachChecker
+from logging import getLogger
+
+getLogger("")
 
 
 # usernameReputationChecker class inherits methods from BreachChecker super class
@@ -19,10 +22,10 @@ class usernameBreachChecker:
         url = "https://haveibeenpwned.com/api/v3/breaches"
         payload={}
         headers = {
-        'hibp-api-key': hibp_key,
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-        'Content-Type': 'application/json'
-        }
+                'hibp-api-key': hibp_key,
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+                'Content-Type': 'application/json'
+                }
         try:
             response = requests.get(url, headers=headers, data=payload).text
             print("Downloading full breach data from HIBP")
@@ -39,23 +42,24 @@ class usernameBreachChecker:
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/"+username
         payload={}
         headers = {
-        'hibp-api-key': hibp_key,
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-        'Content-Type': 'application/json'
-        }
+                'hibp-api-key': hibp_key,
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+                'Content-Type': 'application/json'
+                }
         try:
             response = requests.get(url, headers=headers, data=payload)
         except Exception as e:
-            utils.error_message(e.text)
+            utils.error_message(str(e))
+            sys.exit(1)
         if response.status_code == 404:
-            print(colored("No breaches found for this username","green"))
+            logger.info("No breaches found for this username")
             exit()
         data = json.loads(response.text)
         # Validating the response during execution instead of wasting a call for validation
         if 'statusCode' not in data:
             # print("Query successful")
             for breach_name in data:
-            # print("Breach name: ", breach_name['Name'])
+                # print("Breach name: ", breach_name['Name'])
                 with open('all_breaches.json', 'r')  as f:
                     search_name = breach_name['Name']
                     # print("Searching for breach name: ", search_name)

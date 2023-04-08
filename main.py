@@ -1,14 +1,37 @@
-
 # import requests
-import json
 import argparse
+import json
+import logging
+import os
 import sys
+import sys
+
 from termcolor import colored
+
 from Common import utils
 from Common.utils import Validator
-from IP.ip_reputation_checker import IPReputationChecker
 from Email.email_reputation_checker import EmailBreachChecker
+from IP.ip_reputation_checker import IPReputationChecker
 from Username.username_reputation_checker import usernameBreachChecker
+
+
+# Some basic colors for ✨
+LOG_FORMAT = "\033[1m%(asctime)s\033[0m \033[%(levelname)sm%(levelname)s\033[0m %(message)s"
+
+logging.basicConfig(format=LOG_FORMAT, stream=sys.stdout, level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Configure the root logger to log to console
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+logging.getLogger("").addHandler(console_handler)
+
+# Add a FileHandler to write logs to file
+file_handler = logging.FileHandler(os.path.join("Logs", "debug.log"))
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
+logging.getLogger("").addHandler(file_handler)
 
 def accept_user_input():
     # Instantiate the Validator class

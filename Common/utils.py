@@ -10,16 +10,17 @@ import requests
 import json
 import re
 import ipaddress
-from termcolor  import colored
 import configparser
+import logging
+
+logger = logging.getLogger("")
 
 def error_message(errormsg):
-    print(colored("Error: "+errormsg, 'red'))
-    # TODO: Extend error module to log to error log file
-    # print(errormsg)
+    logger.error(errormsg)
+    # TODO: Extend error module to log to error log file. NOTE: done ✅
 
 def exit_message(exitmsg):
-    print("\033[91m{}\033[0m".format("Fatal Error: "+exitmsg))
+    logger.critical("\033[91m{}\033[0m".format("Fatal Error: "+exitmsg))
     exit()
 
 class Validator:
@@ -32,7 +33,7 @@ class Validator:
         :param email: UTF email format.
         """
 
-         # TODO: Add a list of email domains accepted..may be
+         # TODO: Add a list of email domains accepted.. maybe.
 
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  # pyright: ignore
 
@@ -40,18 +41,18 @@ class Validator:
 
     def is_valid_ip(self, ip):
         """ Verifies ip validity (ipv4?) """
+
         try:
             ipaddress.ip_address(ip)
             return True
-        except Exception as ip_exception:
-            print(str(ip_exception))
+        except Exception:
             return False
 
     def is_valid_username(self, username):
         # Verify username format
          # TODO: Add a list of username domains accepted..may be
         if re.match(r"^[a-zA-Z0-9\-\_\!\@\#\$\%\^\&\*\(\)]+", username):
-            print("Input is a valid username")
+            # print("Input is a valid username")
             return True
         else:
             # print("Invalid username ")
@@ -71,7 +72,7 @@ class Validator:
         if 'error' not in data:
             # Print pretty json response
             # print(json.dumps(data, indent=4, sort_keys=True))
-            print("Virus Total Key Validation: \033[92m{}\033[0m".format("Success"))
+            logger.info("Virus Total Key Validation: \033[92m{}\033[0m".format("Success"))
             return True
         else:
             error_message(json.dumps(data['error'], indent=4, sort_keys=True))
@@ -84,7 +85,8 @@ class Validator:
         # invalid (since likelihood of key being wrong is slim)
 
 class KeyFetcher:
-    def getVTAPIKey(self):
+    @classmethod
+    def getVTAPIKey(cls):
 
         config = configparser.ConfigParser()
 
@@ -102,7 +104,8 @@ class KeyFetcher:
         else:
             return VT_APIKey
 
-    def getHIBPAPIKey(self):
+    @classmethod
+    def getHIBPAPIKey(cls):
 
         config = configparser.ConfigParser()
         if config.read('Config/config.ini'):

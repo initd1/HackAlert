@@ -1,8 +1,10 @@
+import json
+
+import requests
+
 from Common import utils as utils
 from Common.utils import KeyFetcher
 from Common.utils import Validator
-import requests
-import json
 
 # IPReputationChecker class inherits methods from BreachChecker super class
 class IPReputationChecker:
@@ -21,9 +23,9 @@ class IPReputationChecker:
         url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip_address
         payload={}
         headers = {
-        'x-apikey': vtkey
-        }
-        response = requests.request("GET", url, headers=headers, data=payload).text
+                'x-apikey': vtkey
+                }
+        response = requests.request("GET", url, headers=headers, data=payload).text  # pyright: ignore
         data = json.loads(response)
         # pretty print full json response
         # print(json.dumps(data, indent=4, sort_keys=True))
@@ -44,28 +46,3 @@ class IPReputationChecker:
                 self.bad_ip_list.append(ip)
             else:
                 print("IP: "+ip+" is not malicious")
-
-# # ==================
-#     def queryIP(apikey, ip_quad, bad_ip_list):
-#         vt_api = apikey
-#         for ip in ip_quad:
-#             url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip
-#             payload={}
-#             headers = {
-#             'x-apikey': vt_api
-#             }
-#             # catch error if below line fails
-#             # query api and get response. If query fails, catch the error and print the error
-#         try:
-#             response = requests.request("GET", url, headers=headers, data=payload).text
-
-#             data = json.loads(response)
-#             stats = data['data']['attributes']['last_analysis_stats']
-#             print("Results of IP ==>",ip,":", stats)
-#             if stats['malicious'] > 0 or stats['suspicious'] > 0 :
-#                 bad_ip_list.append(ip)
-#             return bad_ip_list
-#         except:
-#             print("Error querying API")
-#             print(response)
-#             exit()
