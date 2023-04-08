@@ -1,5 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+*__pycache*
+.pytest_cache/
 *.py[cod]
 *$py.class
 VT_APIKey
