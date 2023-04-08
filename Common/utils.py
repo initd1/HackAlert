@@ -32,7 +32,7 @@ class Validator:
          # TODO: Add a list of email domains accepted..may be
 
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  # pyright: ignore
-  
+
         return re.search(regex,email)
 
     def is_valid_ip(self, ip):
@@ -45,7 +45,7 @@ class Validator:
             return False
 
     def is_valid_username(self, username):
-         # Verify username format
+        # Verify username format
          # TODO: Add a list of username domains accepted..may be
         if re.match(r"^[a-zA-Z0-9\-\_\!\@\#\$\%\^\&\*\(\)]+", username):
             print("Input is a valid username")
@@ -61,8 +61,8 @@ class Validator:
         url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip
         payload={}
         headers = {
-        'x-apikey': VT_APIKey
-        }
+                'x-apikey': VT_APIKey
+                }
         response = requests.request("GET", url, headers=headers, data=payload).text
         data = json.loads(response)
         if 'error' not in data:
@@ -84,7 +84,7 @@ class KeyFetcher:
     def getVTAPIKey(self):
 
         config = configparser.ConfigParser()
-        
+
         if config.read('Config/config.ini'):
             pass
         else:
