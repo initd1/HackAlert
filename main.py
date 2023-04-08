@@ -4,6 +4,7 @@ import json
 import argparse
 from termcolor import colored
 from Common import utils
+from Common.breach_checker import BreachChecker
 from Common.utils import Validator
 from IP.ip_reputation_checker import IPReputationChecker
 from Email.email_reputation_checker import EmailBreachChecker
@@ -29,7 +30,7 @@ def accept_user_input():
     # It would have to call email and IP modules and serve the results from each module
 
     if args.email:
-        if validator.is_valid_email(args.email) == True:
+        if BreachChecker.is_valid_email(args.email) == True:
             # print(args.email)
             # Call the email module to check if the email is in a breach
             print("Email Validation : \033[92m{}\033[0m".format("Success"))     
