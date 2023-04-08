@@ -16,7 +16,9 @@ from Username.username_reputation_checker import usernameBreachChecker
 
 
 # Some basic colors for ✨
-LOG_FORMAT = "\033[1m%(asctime)s\033[0m \033[%(levelname)sm%(levelname)s\033[0m %(message)s"
+LOG_FORMAT = (
+    "\033[1m%(asctime)s\033[0m \033[%(levelname)sm%(levelname)s\033[0m %(message)s"
+)
 
 logging.basicConfig(format=LOG_FORMAT, stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -33,13 +35,16 @@ file_handler.setLevel(logging.INFO)
 file_handler.setFormatter(logging.Formatter(LOG_FORMAT))
 logging.getLogger("").addHandler(file_handler)
 
+
 def accept_user_input():
     # Instantiate the Validator class
     validator = Validator()
 
     # Accept user input
     try:
-        parser = argparse.ArgumentParser(description="Check if the given data has been compromised in a data breach.")
+        parser = argparse.ArgumentParser(
+            description="Check if the given data has been compromised in a data breach."
+        )
         parser.add_argument("-e", "--email", help="Email address to check")
         parser.add_argument("-i", "--ip", help="IP address to check")
         parser.add_argument("-u", "--username", help="Username to check")
@@ -48,7 +53,7 @@ def accept_user_input():
         # print(er)
         utils.error_message(er)
         sys.exit(1)
-    
+
     # TODO: #9 Find a way to invoke each module in parallel if they are provided:
     # Example: python3 main.py -e asd@d.com -i 1.1.1.1
     # It would have to call email and IP modules and serve the results from each module
@@ -59,7 +64,7 @@ def accept_user_input():
         if email_is_valid:
             # print(args.email)
             # Call the email module to check if the email is in a breach
-            print("Email Validation : \033[92m{}\033[0m".format("Success"))     
+            print("Email Validation : \033[92m{}\033[0m".format("Success"))
             # Instantiate IPReputationChecker class
             breach_checker = EmailBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
@@ -74,7 +79,7 @@ def accept_user_input():
             print("IP Validation : \033[92m{}\033[0m".format("Success"))
             # Instantiate IPReputationChecker class
             ip_checker = IPReputationChecker(args.ip)
-            
+
             # Invoke VT IP Checker module
             vtip_results = ip_checker.checkIPReputationVT(args.ip)
             print("Virus Total results: ", vtip_results)
@@ -88,8 +93,8 @@ def accept_user_input():
         if validator.is_valid_username(args.username) == True:
             # print(args.username)
             # Call the username module to check if the username is in a breach
-            print(colored("Username Validation:","grey"),colored("Success","green"))
-            
+            print(colored("Username Validation:", "grey"), colored("Success", "green"))
+
             # Instantiate IPReputationChecker class
             breach_checker = usernameBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
@@ -101,5 +106,6 @@ def accept_user_input():
     else:
         utils.error_message("Invalid input received.")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     accept_user_input()
