@@ -1,23 +1,31 @@
-# Base/Super class for accepting user input which will be called by other subclasses from each module: Email, IP, etc.
-from . import utils
+"""
+Description: Base/Super class for accepting user input which will be called by other subclasses
+             from each module: Email, IP, etc.
+"""
+
 import re
 import ipaddress
-# import argparse
-# import asyncio
-class BreachChecker:
-    def is_valid_email(self, email):
-         # Verify email format
-         # TODO: Add a list of email domains accepted..may be
-        if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            print("Input is a valid email address.")
-            return True
-        else:
-            # print("Invalid email address.")
-            return False
 
-    def is_valid_ip(self, ip):
+
+class BreachChecker:
+    """ Checks integrity/format of ip addresses and emails """
+
+    @classmethod
+    def is_valid_email(cls, email) :
+        """ Verifies email format """
+
+         # TODO: Add a list of email domains accepted..may be
+
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  
+  
+        return re.search(regex,email)
+
+    @classmethod
+    def is_valid_ip(cls, ip):
+        """ Verifies ip validity (ipv4?) """
+
         try:
             ipaddress.ip_address(ip)
             return True
-        except ValueError as err:
+        except ValueError:
             return False
