@@ -1,16 +1,14 @@
 # import requests
 import argparse
-import json
 import logging
 import os
-import sys
 import sys
 
 from termcolor import colored
 
 from Common import utils
-from Common.utils import Validator
-from Email.email_reputation_checker import EmailBreachChecker
+from Common.validator import Validator
+from Email.email_reputation_checker import *
 from IP.ip_reputation_checker import IPReputationChecker
 from Username.username_reputation_checker import usernameBreachChecker
 
@@ -66,8 +64,7 @@ def accept_user_input():
             # Call the email module to check if the email is in a breach
             print("Email Validation : \033[92m{}\033[0m".format("Success"))
             # Instantiate IPReputationChecker class
-            breach_checker = EmailBreachChecker(args.ip)
-            breach_checker.periodicBreachDownloader()
+            periodicBreachDownloader()
             # breach_results = breach_checker.checkEmailBreach(args.email)
             # print("Email breach checker module results:", breach_results)
             # return args.email
@@ -98,7 +95,7 @@ def accept_user_input():
             # Instantiate IPReputationChecker class
             breach_checker = usernameBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
-            breach_results = breach_checker.checkUsernameBreach(args.username)
+            # breach_results = breach_checker.checkUsernameBreach(args.username)
             # print("username breach checker module results:", breach_results)
             # return args.username
         else:

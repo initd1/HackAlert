@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, os.getcwd())
 
 # NOTE pyright ignore to prevent Lsp from messing up.
-from Common.utils import Validator
+from Common.validator import Validator
 
 
 class TestValidator(unittest.TestCase):

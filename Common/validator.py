@@ -1,7 +1,14 @@
-import requests
-import json
-import re
 import ipaddress
+import json
+import logging
+import re
+
+import requests
+
+from Common.utils import error_message, exit_message
+
+logger = logging.getLogger("")
+
 
 class Validator:
     """Checks integrity/format of ip addresses and emails"""
@@ -58,9 +65,3 @@ class Validator:
             error_message(json.dumps(data["error"], indent=4, sort_keys=True))
             exit_message("Virus Total Key Validation failed")
             return False
-
-    # def check_VTAPIkey(self, VT_APIKey):
-    # instead of wasting a call to HIBP API just to check validity of key,
-    # execute the call for the actual query and then throw error if key is
-    # invalid (since likelihood of key being wrong is slim)
-

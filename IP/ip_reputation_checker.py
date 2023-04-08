@@ -2,9 +2,8 @@ import json
 
 import requests
 
-from Common import utils as utils
-from Common.utils import KeyFetcher
-from Common.utils import Validator
+from Common import key_fetcher, utils as utils
+from Common.validator import Validator
 
 
 # IPReputationChecker class inherits methods from BreachChecker super class
@@ -14,8 +13,7 @@ class IPReputationChecker:
 
     # Check Virus Total IP reputation
     def checkIPReputationVT(self, ip_address):
-        keyfetch_vt = KeyFetcher()
-        vtkey = keyfetch_vt.getVTAPIKey()
+        vtkey = key_fetcher.getVTAPIKey()
         validator = Validator()
         validator.check_VTAPIkey(vtkey)
 

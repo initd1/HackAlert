@@ -1,12 +1,14 @@
-import sys
-import requests
 import json
-from termcolor import colored
-from Common import utils as utils
-from Common.utils import KeyFetcher
-from logging import getLogger
+import logging
+import sys
 
-getLogger("")
+import requests
+from termcolor import colored
+
+from Common import utils as utils
+from Common.key_fetcher import *
+
+logger = logging.getLogger("")
 
 
 # usernameReputationChecker class inherits methods from BreachChecker super class
@@ -17,8 +19,7 @@ class usernameBreachChecker:
     # Method to periodically download full breach data from HIBP so it can be
     # used to lookup further details of a breach when an IP/Email is found in the breach data
     def periodicBreachDownloader(self):
-        keyfetcher = KeyFetcher()
-        hibp_key = keyfetcher.getHIBPAPIKey()
+        hibp_key = getHIBPAPIKey()
         url = "https://haveibeenpwned.com/api/v3/breaches"
         payload = {}
         headers = {
@@ -37,8 +38,7 @@ class usernameBreachChecker:
 
     # Function to check username for breaches from HIBP
     def checkUsernameBreach(self, username):
-        keyfetcher = KeyFetcher()
-        hibp_key = keyfetcher.getHIBPAPIKey()
+        hibp_key = getHIBPAPIKey()
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/" + username
         payload = {}
         headers = {
