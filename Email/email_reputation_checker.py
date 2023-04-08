@@ -33,6 +33,7 @@ def periodicBreachDownloader():
     except Exception as e:
         utils.error_message(e)
 
+
 def checkEmailBreach(email):
     """
     Function to check email for breaches from HIBP
@@ -94,18 +95,12 @@ def checkEmailBreach(email):
                                 ),
                                 colored(breach["DataClasses"], "red"),
                             )
-                        if (
-                            "IsSensitive" in breach
-                            and breach["IsSensitive"] == True
-                        ):
+                        if "IsSensitive" in breach and breach["IsSensitive"] == True:
                             logger.debug(
                                 colored("Breach is sensitive:", "blue"),
                                 colored(breach["IsSensitive"], "yellow"),
                             )
-                        if (
-                            "IsSensitive" in breach
-                            and breach["IsSensitive"] == False
-                        ):
+                        if "IsSensitive" in breach and breach["IsSensitive"] == False:
                             logger.debug(
                                 colored("Breach is sensitive:", "blue"),
                                 colored(breach["IsSensitive"], "green"),

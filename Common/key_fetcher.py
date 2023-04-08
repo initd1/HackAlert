@@ -22,6 +22,7 @@ def getVTAPIKey():
     else:
         return VT_APIKey
 
+
 def getHIBPAPIKey():
     config = configparser.ConfigParser()
     if config.read("Config/config.ini"):
