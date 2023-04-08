@@ -26,14 +26,17 @@ class Validator:
     """ Checks integrity/format of ip addresses and emails """
 
     @classmethod
-    def is_valid_email(cls, email) :
-        """ Verifies email format """
+    def is_valid_email(cls, email):
+        """Verifies email format.
+
+        :param email: UTF email format.
+        """
 
          # TODO: Add a list of email domains accepted..may be
 
         regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  # pyright: ignore
 
-        return re.search(regex,email)
+        return re.search(regex, email)
 
     def is_valid_ip(self, ip):
         """ Verifies ip validity (ipv4?) """

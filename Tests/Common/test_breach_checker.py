@@ -34,8 +34,6 @@ class TestBreachChecker(unittest.TestCase):
             for _, email in enumerate(self.emails[state]):
                 match state:
                     case "valid":
-                        print(email, state)  # NOTE: pytest -s calls print output
                         self.assertTrue(BreachChecker.is_valid_email(email))
                     case "invalid":
-                        print(email, state)
                         self.assertFalse(BreachChecker.is_valid_email(email))

@@ -2,9 +2,9 @@
 # import requests
 import json
 import argparse
+import sys
 from termcolor import colored
 from Common import utils
-from Common.breach_checker import BreachChecker
 from Common.utils import Validator
 from IP.ip_reputation_checker import IPReputationChecker
 from Email.email_reputation_checker import EmailBreachChecker
@@ -24,20 +24,23 @@ def accept_user_input():
     except Exception as er:
         # print(er)
         utils.error_message(er)
+        sys.exit(1)
     
     # TODO: #9 Find a way to invoke each module in parallel if they are provided:
     # Example: python3 main.py -e asd@d.com -i 1.1.1.1
     # It would have to call email and IP modules and serve the results from each module
 
     if args.email:
-        if BreachChecker.is_valid_email(args.email) == True:
+        email_is_valid = Validator.is_valid_email(args.email)
+
+        if email_is_valid:
             # print(args.email)
             # Call the email module to check if the email is in a breach
             print("Email Validation : \033[92m{}\033[0m".format("Success"))     
             # Instantiate IPReputationChecker class
             breach_checker = EmailBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
-            breach_results = breach_checker.checkEmailBreach(args.email)
+            # breach_results = breach_checker.checkEmailBreach(args.email)
             # print("Email breach checker module results:", breach_results)
             # return args.email
         else:
