@@ -8,7 +8,6 @@ import ipaddress
 
 
 class BreachChecker:
-    """ Checks integrity/format of ip addresses and emails """
 
     @classmethod
     def is_valid_email(cls, email) :
@@ -22,7 +21,6 @@ class BreachChecker:
 
     @classmethod
     def is_valid_ip(cls, ip):
-        """ Verifies ip validity (ipv4?) """
 
         try:
             ipaddress.ip_address(ip)

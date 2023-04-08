@@ -1,16 +1,17 @@
-# Utils file to:
-    # fetch the relevant API keys of different services
-    # validate keys
-    # process non critical and fatal errors
-    # TODO: Logging to file
+"""
+This module has the capacity to:
+  - fetch the relevant API keys of different services
+  - validate keys
+  - process non critical and fatal errors
+  - TODO: Logging to file
+"""
+
 import requests
 import json
 import re
 import ipaddress
 from termcolor  import colored
-import sys
 import configparser
-from . import utils
 
 def error_message(errormsg):
     print(colored("Error: "+errormsg, 'red'))
@@ -22,20 +23,25 @@ def exit_message(exitmsg):
     exit()
 
 class Validator:
-    def is_valid_email(self, email):
-         # Verify email format
+    """ Checks integrity/format of ip addresses and emails """
+
+    @classmethod
+    def is_valid_email(cls, email) :
+        """ Verifies email format """
+
          # TODO: Add a list of email domains accepted..may be
-        if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-            # print("Email address validation: \033[92m{}\033[0m".format("Success"))
-            return True
-        else:
-            return False
+
+        regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  # pyright: ignore
+  
+        return re.search(regex,email)
 
     def is_valid_ip(self, ip):
+        """ Verifies ip validity (ipv4?) """
         try:
             ipaddress.ip_address(ip)
             return True
-        except ValueError as err:
+        except Exception as ip_exception:
+            print(str(ip_exception))
             return False
 
     def is_valid_username(self, username):
