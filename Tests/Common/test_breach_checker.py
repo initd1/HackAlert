@@ -6,10 +6,10 @@ import os
 sys.path.insert(0, os.getcwd())
 
 # NOTE pyright ignore to prevent Lsp from messing up.
-from Common.breach_checker import BreachChecker  # pyright: ignore
+from Common.utils import Validator
 
 
-class TestBreachChecker(unittest.TestCase):
+class TestValidator(unittest.TestCase):
     def setUp(self):
         self.emails = {
             "valid": [
@@ -34,6 +34,6 @@ class TestBreachChecker(unittest.TestCase):
             for _, email in enumerate(self.emails[state]):
                 match state:
                     case "valid":
-                        self.assertTrue(BreachChecker.is_valid_email(email))
+                        self.assertTrue(Validator.is_valid_email(email))
                     case "invalid":
-                        self.assertFalse(BreachChecker.is_valid_email(email))
+                        self.assertFalse(Validator.is_valid_email(email))
