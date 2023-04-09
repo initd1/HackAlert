@@ -94,25 +94,27 @@ def checkUsernameBreach(username):
                                 ),
                                 colored(breach["DataClasses"], "red"),
                             )
-                        if "IsSensitive" in breach and breach["IsSensitive"] == True:
-                            print(
-                                colored("Breach is sensitive:", "blue"),
-                                colored(breach["IsSensitive"], "yellow"),
-                            )
-                        if "IsSensitive" in breach and breach["IsSensitive"] == False:
-                            print(
-                                colored("Breach is sensitive:", "blue"),
-                                colored(breach["IsSensitive"], "green"),
-                            )
-                        if "IsVerified" in breach and breach["IsVerified"] == True:
-                            print(
-                                colored("Breach is verified:", "blue"),
-                                colored(breach["IsVerified"], "green"),
-                            )
-                        if "IsVerified" in breach and breach["IsVerified"] == False:
-                            print(
-                                colored("Breach is verified:", "blue"),
-                                colored(breach["IsVerified"], "red"),
+                        if "IsSensitive" in breach:
+                            if breach["IsSensitive"]:
+                                print(
+                                    colored("Breach is sensitive:", "blue"),
+                                    colored(breach["IsSensitive"], "yellow"),
+                                )
+                            else:
+                                print(
+                                    colored("Breach is sensitive:", "blue"),
+                                    colored(breach["IsSensitive"], "green"),
+                                )
+                        if "IsVerified" in breach:
+                            if breach["IsVerified"]:
+                                print(
+                                    colored("Breach is verified:", "blue"),
+                                    colored(breach["IsVerified"], "green"),
+                                )
+                            else:
+                                print(
+                                    colored("Breach is verified:", "blue"),
+                                    colored(breach["IsVerified"], "red"),
                             )
                         print(
                             colored("Number of accounts compromised:", "blue"),
