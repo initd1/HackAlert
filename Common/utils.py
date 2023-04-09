@@ -52,4 +52,3 @@ def check_VTAPIkey(key):
     else:
         error_message(json.dumps(data["error"], indent=4, sort_keys=True))
         exit_message("Virus Total Key Validation failed")
-        return False
