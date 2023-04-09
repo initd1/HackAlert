@@ -6,6 +6,8 @@ class TestConfig(unittest.TestCase):
     def setUp(self):
         self.path = os.path.join('Config/logger.ini')
 
+        if not os.path.isdir('Logs'):
+            os.mkdir('Logs')
         if not os.path.exists(os.path.join('Logs', 'traceback.log')):
             with open(os.path.join('Logs', 'traceback.log')) as fp:
                 fp.close()
