@@ -57,44 +57,25 @@ def accept_user_input():
         email_is_valid = is_valid_email(args.email)
 
         if email_is_valid:
-            # print(args.email)
-            # Call the email module to check if the email is in a breach
             print("Email Validation : \033[92m{}\033[0m".format("Success"))
-            # Instantiate IPReputationChecker class
             periodicBreachDownloader()
-            # breach_results = breach_checker.checkEmailBreach(args.email)
-            # print("Email breach checker module results:", breach_results)
-            # return args.email
         else:
             utils.exit_message("Invalid email address")
     elif args.ip:
-        # if valid IP, print and return IP
         if is_valid_ip(args.ip) == True:
             print("IP Validation : \033[92m{}\033[0m".format("Success"))
-            # Instantiate IPReputationChecker class
             ip_checker = IPReputationChecker(args.ip)
 
-            # Invoke VT IP Checker module
             vtip_results = ip_checker.checkIPReputationVT(args.ip)
             print("Virus Total results: ", vtip_results)
-
-            # Invoke OTX IP Checker module
-            # otx_results = ...
-            # print("OTX results:",otx_results)
         else:
             utils.error_message("Invalid IP address")
     elif args.username:
         if is_valid_username(args.username) == True:
-            # print(args.username)
-            # Call the username module to check if the username is in a breach
             print(colored("Username Validation:", "grey"), colored("Success", "green"))
 
-            # Instantiate IPReputationChecker class
             breach_checker = usernameBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
-            # breach_results = breach_checker.checkUsernameBreach(args.username)
-            # print("username breach checker module results:", breach_results)
-            # return args.username
         else:
             utils.exit_message("Invalid username")
     else:

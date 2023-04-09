@@ -3,7 +3,6 @@ This module has the capacity to:
   - fetch the relevant API keys of different services
   - validate keys
   - process non critical and fatal errors
-  - TODO: Logging to file
 """
 
 import json
