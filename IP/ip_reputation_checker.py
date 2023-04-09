@@ -36,6 +36,8 @@ def checkIPReputationTalos(ip_list):
     """
 
     print("Checking IP reputation from Cisco Talos")
+    malicious = []
+
     for ip in ip_list:
         url = "https://talosintelligence.com/reputation_center/lookup?search=" + ip
         response = requests.request("GET", url).text
@@ -45,6 +47,7 @@ def checkIPReputationTalos(ip_list):
         ):
             print("IP: " + ip + " is malicious")
             # TODO dump to json file
-            continue
+            malicious.append(ip)
         else:
             print("IP: " + ip + " is not malicious")
+    return malicious
