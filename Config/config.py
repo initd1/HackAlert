@@ -13,7 +13,8 @@
 # VT_APIKey = config['APIKeys']['VT_APIKey']
 import logging.config
 
-def configure_logging(file='config.ini'):
+
+def configure_logging(file="config.ini"):
     """Set up default logger for logging messages.
 
     :param `file`: File to set configuration from.
