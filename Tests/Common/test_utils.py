@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, os.getcwd())
 
 # NOTE pyright ignore to prevent Lsp from messing up.
-from Common.validator import is_valid_ip, is_valid_email, is_valid_username
+from Common.validator import is_valid_ip, is_valid_email, is_valid_username  # pyright: ignore
 
 
 class TestValidator(unittest.TestCase):
@@ -37,6 +37,23 @@ class TestValidator(unittest.TestCase):
                     ],
                 }
 
+        self.addresses = {
+                "valid": [
+                    "192.168.0.1",
+                    "255.255.255.255",
+                    "0.0.0.0"
+                    ],
+                "invalid": [
+                    "192",
+                    "1923",
+                    "192.168",
+                    "1921.168",
+                    "192.168.0",
+                    "192.168.0.-1",
+                    "192.168.0.1111",
+                    ]
+                }
+
     def test_is_valid_email(self):
         """Recursively checks validity of arrays in `self.emails`"""
 
@@ -58,3 +75,18 @@ class TestValidator(unittest.TestCase):
                         self.assertTrue(is_valid_username(name))
                     case "invalid":
                         self.assertFalse(is_valid_username(name))
+
+    def test_is_valid_ip(self):
+        """ Check ipv4 format is valid (recursively).
+
+            - this test checks the validity of the *format* ip addresses.
+            - this test does not establish any connections what-so-ever.
+        """
+
+        for state in self.addresses:
+            for address in self.addresses[state]:
+                match state:
+                    case "valid":
+                        self.assertTrue(is_valid_ip(address))
+                    case "invalid":
+                        self.assertFalse(is_valid_ip(address))
