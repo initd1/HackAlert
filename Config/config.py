@@ -17,6 +17,7 @@ def get_config(config_file_path):
 
     # read from file
     config.read(config_file_path)
+    config.__dict__
 
     # read from environment variables
     for key in config['ENVIRONMENT']:
