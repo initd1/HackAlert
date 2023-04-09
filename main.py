@@ -1,13 +1,30 @@
-
-# import requests
-import json
 import argparse
+import json
+import logging
+import logging.config
+import sys
+
+import requests
 from termcolor import colored
+
 from Common import utils
 from Common.utils import Validator
-from IP.ip_reputation_checker import IPReputationChecker
+from Config.config import configure_logging
 from Email.email_reputation_checker import EmailBreachChecker
+from IP.ip_reputation_checker import IPReputationChecker
 from Username.username_reputation_checker import usernameBreachChecker
+
+import logging
+import time
+
+from selenium import webdriver
+import requests
+
+from Config.config import configure_logging
+
+
+
+configure_logging()
 
 def accept_user_input():
     # Instantiate the Validator class
@@ -32,7 +49,7 @@ def accept_user_input():
         if validator.is_valid_email(args.email) == True:
             # print(args.email)
             # Call the email module to check if the email is in a breach
-            print("Email Validation : \033[92m{}\033[0m".format("Success"))     
+            logging.info("Email Validation : \033[92m{}\033[0m".format("Success"))     
             # Instantiate IPReputationChecker class
             breach_checker = EmailBreachChecker(args.ip)
             breach_checker.periodicBreachDownloader()
@@ -44,24 +61,24 @@ def accept_user_input():
     elif args.ip:
         # if valid IP, print and return IP
         if validator.is_valid_ip(args.ip) == True:
-            print("IP Validation : \033[92m{}\033[0m".format("Success"))
+            logging.info("IP Validation : \033[92m{}\033[0m".format("Success"))
             # Instantiate IPReputationChecker class
             ip_checker = IPReputationChecker(args.ip)
             
             # Invoke VT IP Checker module
             vtip_results = ip_checker.checkIPReputationVT(args.ip)
-            print("Virus Total results: ", vtip_results)
+            logging.info("Virus Total results: ", vtip_results)
 
             # Invoke OTX IP Checker module
             # otx_results = ...
             # print("OTX results:",otx_results)
         else:
-            utils.error_message("Invalid IP address")
+            logging.error("Invalid IP address")
     elif args.username:
         if validator.is_valid_username(args.username) == True:
             # print(args.username)
             # Call the username module to check if the username is in a breach
-            print(colored("Username Validation:","grey"),colored("Success","green"))
+            logging.info(colored("Username Validation:","grey"),colored("Success","green"))
             
             # Instantiate IPReputationChecker class
             breach_checker = usernameBreachChecker(args.ip)
@@ -70,9 +87,10 @@ def accept_user_input():
             # print("username breach checker module results:", breach_results)
             # return args.username
         else:
-            utils.exit_message("Invalid username")
+            logging.critical("Invalid username")
+            sys.exit()
     else:
-        utils.error_message("Invalid input received.")
+        logging.warning("Invalid input received.")
 
 if __name__ == '__main__':
     accept_user_input()

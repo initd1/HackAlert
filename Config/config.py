@@ -1,19 +1,52 @@
-import configparser
+import logging
 import logging.config
-from Common import utils
+import configparser
+import os
+import sys
 
 
-def configure_logging(file="config.ini"):
-    """Set up default logger for logging messages.
-
-    :param `file`: File to set configuration from.
+def get_config(config_file_path):
     """
+    Parse configuration from file and environment variables.
 
+    :param str config_file_path: path to the configuration file
+    :return: configuration values as a dictionary
+    :rtype: dict
+    """
+    config = configparser.ConfigParser()
+
+    # read from file
+    config.read(config_file_path)
+
+    # read from environment variables
+    for key in config['ENVIRONMENT']:
+        env_var = os.environ.get(key)
+        if env_var is not None:
+            config['ENVIRONMENT'][key] = env_var
+
+    return config
+
+
+def get_logging_config():
+    """
+    Get logging configuration from configuration file.
+
+    :return: logging configuration as a dictionary
+    :rtype: dict
+    """
     try:
-        config = configparser.ConfigParser()
-        config.read('config.ini')
-    except Exception as er:
-        utils.error_message(er)
-    finally:
-        logging.config.fileConfig(file)
-    return
+        open('Config/logger.ini')
+    except Exception:
+        print("File location invalid  ")
+        sys.exit(1)
+
+    config = get_config('Config/logger.ini')
+    return config
+
+
+def configure_logging():
+    """
+    Configure logging for the application.
+    """
+    logging_config = get_logging_config()
+    return logging_config
