@@ -1,26 +1,27 @@
 import argparse
 import json
 import logging
+import logging
 import logging.config
 import sys
+import time
 
+from colorama import Fore, init
+import requests
 import requests
 from termcolor import colored
 
 from Common import utils
 from Common.utils import Validator
 from Config.config import configure_logging
+from Config.config import configure_logging
 from Email.email_reputation_checker import EmailBreachChecker
 from IP.ip_reputation_checker import IPReputationChecker
 from Username.username_reputation_checker import usernameBreachChecker
-
-import logging
-import time
-
-from selenium import webdriver
-import requests
-
 from Config.config import configure_logging
+
+
+init()
 
 
 
@@ -78,7 +79,7 @@ def accept_user_input():
         if validator.is_valid_username(args.username) == True:
             # print(args.username)
             # Call the username module to check if the username is in a breach
-            logging.info(colored("Username Validation:","grey"),colored("Success","green"))
+            logging.info("{} {}".format(colored("Username Validation:","grey"), colored("Success","green")))
             
             # Instantiate IPReputationChecker class
             breach_checker = usernameBreachChecker(args.ip)
