@@ -1,11 +1,8 @@
-from logging.config import fileConfig
-from logging import Logger, getLogger
 import requests
 import json
 from termcolor import colored
 from Common import utils as utils
 from Common.utils import KeyFetcher
-from Common.breach_checker import BreachChecker
 from Config.config import configure_logging
 
 import logging
@@ -52,9 +49,10 @@ class EmailBreachChecker:
         try:
             response = requests.get(url, headers=headers, data=payload)
         except Exception as e:
-            utils.error_message(e.text)
+            utils.error_message(str(e))
+            return;
         if response.status_code == 404:
-            logger.debug("{}".format(colored("No breaches found for this email","green")))
+            logging.debug("{}".format(colored("No breaches found for this email","green")))
             exit()
         data = json.loads(response.text)
         # Validating the response during execution instead of wasting a call for validation
