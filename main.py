@@ -9,7 +9,7 @@ from termcolor import colored
 from Common import utils
 from Common.validator import *
 from Email.email_reputation_checker import *
-from IP.ip_reputation_checker import IPReputationChecker
+from IP.ip_reputation_checker import *
 from Username.username_reputation_checker import usernameBreachChecker
 
 
@@ -70,9 +70,7 @@ def accept_user_input():
     elif args.ip:
         if is_valid_ip(args.ip) == True:
             print("IP Validation : \033[92m{}\033[0m".format("Success"))
-            ip_checker = IPReputationChecker(args.ip)
-
-            vtip_results = ip_checker.checkIPReputationVT(args.ip)
+            vtip_results = checkIPReputationVT(args.ip)
             print("Virus Total results: ", vtip_results)
         else:
             utils.error_message("Invalid IP address")
