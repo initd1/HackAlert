@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, os.getcwd())
 
 # NOTE pyright ignore to prevent Lsp from messing up.
-from Common.validator import Validator
+from Common.validator import is_valid_ip, is_valid_email, is_valid_username
 
 
 class TestValidator(unittest.TestCase):
@@ -26,14 +26,35 @@ class TestValidator(unittest.TestCase):
             ],
         }
 
+        # TODO add additional edge cases
+        self.user_names = {
+                "valid": [
+                    "test123"
+                    "_test_"
+                    ],
+                "invalid": [
+                    "😀",
+                    ],
+                }
+
     def test_is_valid_email(self):
         """Recursively checks validity of arrays in `self.emails`"""
 
-        print("\ntest_is_valid_email")
         for state in self.emails:
-            for _, email in enumerate(self.emails[state]):
+            for email in self.emails[state]:
                 match state:
                     case "valid":
-                        self.assertTrue(Validator.is_valid_email(email))
+                        self.assertTrue(is_valid_email(email))
                     case "invalid":
-                        self.assertFalse(Validator.is_valid_email(email))
+                        self.assertFalse(is_valid_email(email))
+
+    def test_is_valid_name(self):
+        """ Recursively checks the validity of usernames """
+
+        for state in self.user_names:
+            for name in self.user_names[state]:
+                match state:
+                    case "valid":
+                        self.assertTrue(is_valid_username(name))
+                    case "invalid":
+                        self.assertFalse(is_valid_username(name))
