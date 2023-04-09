@@ -6,6 +6,10 @@ class TestConfig(unittest.TestCase):
     def setUp(self):
         self.path = os.path.join('Config/logger.ini')
 
+        if not os.path.exists(os.path.join('Logs', 'traceback.log')):
+            with open(os.path.join('Logs', 'traceback.log')) as fp:
+                fp.close()
+
     def test_config_exists(self):
         self.assertTrue(self.path)
 
