@@ -7,7 +7,7 @@ import sys
 from termcolor import colored
 
 from Common import utils
-from Common.validator import Validator
+from Common.validator import *
 from Email.email_reputation_checker import *
 from IP.ip_reputation_checker import IPReputationChecker
 from Username.username_reputation_checker import usernameBreachChecker
@@ -35,10 +35,6 @@ logging.getLogger("").addHandler(file_handler)
 
 
 def accept_user_input():
-    # Instantiate the Validator class
-    validator = Validator()
-
-    # Accept user input
     try:
         parser = argparse.ArgumentParser(
             description="Check if the given data has been compromised in a data breach."
@@ -47,17 +43,16 @@ def accept_user_input():
         parser.add_argument("-i", "--ip", help="IP address to check")
         parser.add_argument("-u", "--username", help="Username to check")
         args = parser.parse_args()
-    except Exception as er:
-        # print(er)
-        utils.error_message(er)
-        sys.exit(1)
+    except Exception as err:
+        utils.exit_message(err)
+        return;
 
     # TODO: #9 Find a way to invoke each module in parallel if they are provided:
     # Example: python3 main.py -e asd@d.com -i 1.1.1.1
     # It would have to call email and IP modules and serve the results from each module
 
     if args.email:
-        email_is_valid = Validator.is_valid_email(args.email)
+        email_is_valid = is_valid_email(args.email)
 
         if email_is_valid:
             # print(args.email)
@@ -72,7 +67,7 @@ def accept_user_input():
             utils.exit_message("Invalid email address")
     elif args.ip:
         # if valid IP, print and return IP
-        if validator.is_valid_ip(args.ip) == True:
+        if is_valid_ip(args.ip) == True:
             print("IP Validation : \033[92m{}\033[0m".format("Success"))
             # Instantiate IPReputationChecker class
             ip_checker = IPReputationChecker(args.ip)
@@ -87,7 +82,7 @@ def accept_user_input():
         else:
             utils.error_message("Invalid IP address")
     elif args.username:
-        if validator.is_valid_username(args.username) == True:
+        if is_valid_username(args.username) == True:
             # print(args.username)
             # Call the username module to check if the username is in a breach
             print(colored("Username Validation:", "grey"), colored("Success", "green"))

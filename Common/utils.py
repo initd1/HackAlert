@@ -9,6 +9,7 @@ This module has the capacity to:
 import json
 import logging
 import sys
+
 import requests
 
 logger = logging.getLogger("")
