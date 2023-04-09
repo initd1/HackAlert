@@ -6,7 +6,7 @@ import os
 sys.path.insert(0, os.getcwd())
 
 # NOTE pyright ignore to prevent Lsp from messing up.
-from Common.validator import is_valid_ip, is_valid_email, is_valid_username  # pyright: ignore
+from Common.validator import *
 
 
 class TestValidator(unittest.TestCase):
