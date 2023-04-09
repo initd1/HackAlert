@@ -43,7 +43,8 @@ def accept_user_input():
 
     try:
         parser = argparse.ArgumentParser(
-            description="Check if the given data has been compromised in a data breach."
+            description="""Ensure the security of your data by becoming aware of known data breaches.
+Use this tool to help you stay alert and aware of threats to your personal information."""
         )
         parser.add_argument("-e", "--email", help="Email address to check")
         parser.add_argument("-i", "--ip", help="IP address to check")
