@@ -24,7 +24,6 @@ def getVTAPIKey():
 
 
 def getHIBPAPIKey(config_name="config.ini"):
-
     config = configparser.ConfigParser()
 
     if config.read(os.path.join("Config", config_name)):

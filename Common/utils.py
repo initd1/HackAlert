@@ -22,6 +22,7 @@ def error_message(error_msg):
 
     logger.error(error_msg)
 
+
 def exit_message(exit_msg, error_code=1):
     """Halt runtime and exit with `error_code` (default=1)
 
@@ -30,6 +31,7 @@ def exit_message(exit_msg, error_code=1):
 
     logger.critical("\033[91m{}\033[0m".format(f"Fatal Error: {exit_msg}"))
     sys.exit(error_code)
+
 
 def check_VTAPIkey(key):
     """Checks if the VirusTotal API Key is valid.

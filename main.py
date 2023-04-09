@@ -51,7 +51,7 @@ def accept_user_input():
         args = parser.parse_args()
     except Exception as err:
         utils.exit_message(err)
-        return;
+        return
 
     """
     >>> # TODO: #9 Find a way to invoke each module in parallel if they are provided eg:
