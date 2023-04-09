@@ -1,3 +1,13 @@
+"""
+TODO:
+     - change function names to proper naming conventions eg
+     >>> def doSomething(): ...
+
+     becomes
+
+     >>> def do_something(): ...
+"""
+
 import json
 import logging
 import sys
