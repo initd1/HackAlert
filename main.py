@@ -35,6 +35,12 @@ logging.getLogger("").addHandler(file_handler)
 
 
 def accept_user_input():
+    """Handles user input through the usage of `parser.add_argument`
+
+    :return: Return in exception is only called to make LSP happy.
+    :rtype: *
+    """
+
     try:
         parser = argparse.ArgumentParser(
             description="Check if the given data has been compromised in a data breach."
