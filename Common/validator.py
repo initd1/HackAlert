@@ -21,12 +21,12 @@ def is_valid_email(email):
     return re.search(regex, email)
 
 
-def is_valid_ip(ip):
+def is_valid_ip(ip_address):
     """Verifies ip validity by using a common networking library.
 
-    :param `ip`: IP address as a valid (non-local) ipv4 or ipv6 address.
-    :type `ip`: str
-    :return: The validity of `ip` and if it matches a given syntax.
+    :param `ip_address`: IP address as a valid (non-local) ipv4 or ipv6 address.
+    :type `ip_address`: str
+    :return: The validity of `ip_address` and if it matches a given syntax.
     Note that this does not validate that it exists, merely that it follows a format.
     :rtype: bool
     """
@@ -34,7 +34,7 @@ def is_valid_ip(ip):
     ip_is_valid = True
 
     try:
-        ipaddress.ip_address(ip)
+        ipaddress.ip_address(ip_address)
     except Exception:
         ip_is_valid = False
     return ip_is_valid

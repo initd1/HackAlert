@@ -2,49 +2,49 @@ import json
 
 import requests
 
-from Common import key_fetcher, utils as utils
-from Common.validator import Validator
+from Common import key_fetcher
+from Common.utils import *
+from Common.validator import *
 
 
-# IPReputationChecker class inherits methods from BreachChecker super class
-class IPReputationChecker:
-    def __init__(self, ip_address):
-        self.ip_address = ip_address
+def checkIPReputationVT(ip_address):
+    """Check Virus Total IP reputation.
 
-    # Check Virus Total IP reputation
-    def checkIPReputationVT(self, ip_address):
-        vtkey = key_fetcher.getVTAPIKey()
-        validator = Validator()
-        validator.check_VTAPIkey(vtkey)
+    :param `ip_address`: IP address as a valid (non-local) ipv4 or ipv6 address.
+    :type `ip`: str
+    """
+    virus_total_key = key_fetcher.getVTAPIKey()
+    check_VTAPIkey(virus_total_key)
 
-        print("Checking IP reputation from Virus Total for ip:", ip_address)
-        # Check IP reputation from Virus Total
-        url = "https://www.virustotal.com/api/v3/ip_addresses/" + ip_address
-        payload = {}
-        headers = {"x-apikey": vtkey}
-        response = requests.request(
-            "GET", url, headers=headers, data=payload
-        ).text  # pyright: ignore
-        data = json.loads(response)
-        # pretty print full json response
-        # print(json.dumps(data, indent=4, sort_keys=True))
-        results = data["data"]["attributes"]["total_votes"]
-        return results
+    print("Checking IP reputation from Virus Total for ip:", ip_address)
+    url = "https://www.virustotal.com/api/v3/ip_addresses/" + ip_address
+    payload = {}
+    headers = {"x-apikey": virus_total_key}
+    response = requests.request(
+        "GET", url, headers=headers, data=payload  # pyright: ignore
+    ).text
+    data = json.loads(response)
+    results = data["data"]["attributes"]["total_votes"]
+    return results
 
-    # Check Talos IP reputation
-    def checkIPReputationTalos(self, ip_list):
-        # Check IP reputation from Cisco Talos
-        # https://talosintelligence.com/reputation_center/lookup?search=
-        # User requests to check IP reputation from Cisco Talos
-        print("Checking IP reputation from Cisco Talos")
-        for ip in ip_list:
-            url = "https://talosintelligence.com/reputation_center/lookup?search=" + ip
-            response = requests.request("GET", url).text
-            if (
-                "This IP address has been observed to be associated with malicious activity."
-                in response
-            ):
-                print("IP: " + ip + " is malicious")
-                self.bad_ip_list.append(ip)
-            else:
-                print("IP: " + ip + " is not malicious")
+
+def checkIPReputationTalos(ip_list):
+    """Check IP reputation from Cisco Talos.
+
+    URL: https://talosintelligence.com/reputation_center/lookup?search=
+    User requests to check IP reputation from Cisco Talos
+    """
+
+    print("Checking IP reputation from Cisco Talos")
+    for ip in ip_list:
+        url = "https://talosintelligence.com/reputation_center/lookup?search=" + ip
+        response = requests.request("GET", url).text
+        if (
+            "This IP address has been observed to be associated with malicious activity."
+            in response
+        ):
+            print("IP: " + ip + " is malicious")
+            # TODO dump to json file
+            continue
+        else:
+            print("IP: " + ip + " is not malicious")
