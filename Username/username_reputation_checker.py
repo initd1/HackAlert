@@ -34,8 +34,13 @@ def periodicBreachDownloader():
         utils.error_message(str(e))
 
 
-# Function to check username for breaches from HIBP
 def checkUsernameBreach(username):
+    """check username for breaches from HIBP
+
+    :param username: Username to check breaches for.
+    :type username: str
+    """
+
     hibp_key = getHIBPAPIKey()
     url = "https://haveibeenpwned.com/api/v3/breachedaccount/" + username
     payload = {}
@@ -53,16 +58,13 @@ def checkUsernameBreach(username):
         logger.info("No breaches found for this username")
         exit()
     data = json.loads(response.text)
-    # Validating the response during execution instead of wasting a call for validation
+
+    # Validate response during execution - prevents wasting call
     if "statusCode" not in data:
-        # print("Query successful")
         for breach_name in data:
-            # print("Breach name: ", breach_name['Name'])
             with open("all_breaches.json", "r") as f:
                 search_name = breach_name["Name"]
-                # print("Searching for breach name: ", search_name)
                 breaches = json.load(f)
-                # print(breaches)
                 for breach in breaches:
                     if "Name" in breach and breach["Name"] == search_name:
                         print(
