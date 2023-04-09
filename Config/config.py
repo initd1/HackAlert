@@ -28,7 +28,7 @@ def get_config(config_file_path):
     return config
 
 
-def get_logging_config():
+def get_logging_config(file_location="Config/logger.ini"):
     """
     Get logging configuration from configuration file.
 
@@ -36,9 +36,9 @@ def get_logging_config():
     :rtype: dict
     """
     try:
-        open('Config/logger.ini')
-    except Exception:
-        print("File location invalid  ")
+        open(file_location, "r")
+    except FileNotFoundError:
+        logging.critical(f"File location invalid: {file_location}")
         sys.exit(1)
 
     config = get_config('Config/logger.ini')
