@@ -11,14 +11,19 @@ from termcolor  import colored
 import sys
 import configparser
 from . import utils
+from Config.config import configure_logging
+import logging
+
+
+configure_logging()
 
 def error_message(errormsg):
-    print(colored("Error: "+errormsg, 'red'))
+    logging.error(colored("Error: "+errormsg, 'red'))
     # TODO: Extend error module to log to error log file
     # print(errormsg)
 
 def exit_message(exitmsg):
-    print("\033[91m{}\033[0m".format("Fatal Error: "+exitmsg))
+    logging.critical("\033[91m{}\033[0m".format("Fatal Error: "+exitmsg))
     exit()
 
 class Validator:
@@ -42,7 +47,7 @@ class Validator:
          # Verify username format
          # TODO: Add a list of username domains accepted..may be
         if re.match(r"^[a-zA-Z0-9\-\_\!\@\#\$\%\^\&\*\(\)]+", username):
-            print("Input is a valid username")
+            logging.debug("Input is a valid username")
             return True
         else:
             # print("Invalid username ")
@@ -62,7 +67,7 @@ class Validator:
         if 'error' not in data:
             # Print pretty json response
             # print(json.dumps(data, indent=4, sort_keys=True))
-            print("Virus Total Key Validation: \033[92m{}\033[0m".format("Success"))
+            logging.info("Virus Total Key Validation: \033[92m{}\033[0m".format("Success"))
             return True
         else:
             error_message(json.dumps(data['error'], indent=4, sort_keys=True))

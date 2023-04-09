@@ -1,10 +1,15 @@
-import requests
 import json
-from termcolor import colored
-from Common import utils as utils
-from Common.utils import KeyFetcher
-from Common.breach_checker import BreachChecker
+import logging
 
+import requests
+from termcolor import colored
+
+from Common import utils as utils
+from Common.breach_checker import BreachChecker
+from Common.utils import KeyFetcher
+from Config.config import configure_logging
+
+configure_logging()
 
 # usernameReputationChecker class inherits methods from BreachChecker super class
 class usernameBreachChecker:
@@ -25,7 +30,7 @@ class usernameBreachChecker:
         }
         try:
             response = requests.get(url, headers=headers, data=payload).text
-            print("Downloading full breach data from HIBP")
+            logging.info("Downloading full breach data from HIBP")
             breaches = json.loads(response)
             with open('all_breaches.json', 'w') as f:
                 json.dump(breaches, f)
@@ -48,7 +53,7 @@ class usernameBreachChecker:
         except Exception as e:
             utils.error_message(e.text)
         if response.status_code == 404:
-            print(colored("No breaches found for this username","green"))
+            logging.info(colored("No breaches found for this username","green"))
             exit()
         data = json.loads(response.text)
         # Validating the response during execution instead of wasting a call for validation
@@ -63,24 +68,24 @@ class usernameBreachChecker:
                     # print(breaches)
                     for breach in breaches:
                         if 'Name' in breach and breach['Name'] == search_name:
-                            print("\n\n" + colored("Account name:", "blue"), colored(username, "red"))
+                            logging.info("\n\n" + colored("Account name:", "blue"), colored(username, "red"))
                             if 'Name' in breach:
-                                print(colored("Breach name:", "blue"), colored(breach_name['Name'], "red"))
+                                logging.info(colored("Breach name:", "blue"), colored(breach_name['Name'], "red"))
                             if 'Description' in breach:
-                                print(colored("Breach description:", "blue"), colored(breach['Description'], "red"))
+                                logging.info(colored("Breach description:", "blue"), colored(breach['Description'], "red"))
                             if 'BreachDate' in breach:
-                                print(colored("Breach date:", "blue"), colored(breach['BreachDate'], "white"))
+                                logging.info(colored("Breach date:", "blue"), colored(breach['BreachDate'], "white"))
                             if 'DataClasses' in breach:
-                                print(colored("Data classes that were part of this breach:", "blue"), colored(breach['DataClasses'], "red"))
+                                logging.info(colored("Data classes that were part of this breach:", "blue"), colored(breach['DataClasses'], "red"))
                             if 'IsSensitive' in breach and breach['IsSensitive'] == True:
-                                print(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "yellow"))
+                                logging.info(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "yellow"))
                             if 'IsSensitive' in breach and breach['IsSensitive'] == False:
-                                print(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "green"))
+                                logging.info(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "green"))
                             if 'IsVerified' in breach and breach['IsVerified'] == True:
-                                print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green"))
+                                logging.info(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green"))
                             if 'IsVerified' in breach  and breach['IsVerified'] == False:
-                                print(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
-                            print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
+                                logging.info(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
+                            logging.info(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
                         else:
                             pass
         else:
