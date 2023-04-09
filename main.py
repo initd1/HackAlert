@@ -47,9 +47,11 @@ def accept_user_input():
         utils.exit_message(err)
         return;
 
-    # TODO: #9 Find a way to invoke each module in parallel if they are provided:
-    # Example: python3 main.py -e asd@d.com -i 1.1.1.1
-    # It would have to call email and IP modules and serve the results from each module
+    """
+    >>> # TODO: #9 Find a way to invoke each module in parallel if they are provided eg:
+    >>> python3 main.py -e asd@d.com -i 1.1.1.1
+    >>> It would have to call email and IP modules and serve the results from each module.
+    """
 
     if args.email:
         email_is_valid = is_valid_email(args.email)
