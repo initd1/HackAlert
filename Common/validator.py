@@ -16,8 +16,6 @@ def is_valid_email(email):
     :rtype: bool
     """
 
-    # TODO: Add a list of email domains accepted.. maybe.
-
     regex = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"  # pyright: ignore
 
     return re.search(regex, email)
