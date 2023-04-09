@@ -40,6 +40,8 @@ def periodicBreachDownloader():
         breaches = json.loads(response)
         with open("all_breaches.json", "w") as f:
             json.dump(breaches, f)
+            f.close()
+        return breaches
     except Exception as e:
         utils.error_message(e)
 
@@ -63,8 +65,9 @@ def checkEmailBreach(email):
         utils.error_message(str(e))
         sys.exit(1)
     if response.status_code == 404:
-        logger.critical("No breaches found for this email", "green")
-        exit()
+        logger.debug("No breaches found for this email", "green")
+        sys.exit(0)
+
     data = json.loads(response.text)
     # Validating the response during execution instead of wasting a call for validation
     if "statusCode" not in data:
