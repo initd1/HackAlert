@@ -34,6 +34,7 @@ class TestValidator(unittest.TestCase):
             ],
         }
 
+        # TODO add additional edge cases for "valid"
         self.addresses = {
             "valid": ["192.168.0.1", "255.255.255.255", "0.0.0.0"],
             "invalid": [
