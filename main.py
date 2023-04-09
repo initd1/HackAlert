@@ -46,9 +46,9 @@ def accept_user_input():
             description="""Ensure the security of your data by becoming aware of known data breaches.
 Use this tool to help you stay alert and aware of threats to your personal information."""
         )
-        parser.add_argument("-e", "--email", help="Email address to check")
-        parser.add_argument("-i", "--ip", help="IP address to check")
-        parser.add_argument("-u", "--username", help="Username to check")
+        parser.add_argument("-e", "--email", help="Scan known breaches for any email")
+        parser.add_argument("-i", "--ip", help="Check an ipv4 or ipv6 address")
+        parser.add_argument("-u", "--username", help="Automatically index data for account leaks")
         args = parser.parse_args()
     except Exception as err:
         utils.exit_message(err)
