@@ -28,31 +28,24 @@ class TestValidator(unittest.TestCase):
 
         # TODO add additional edge cases
         self.user_names = {
-                "valid": [
-                    "test123"
-                    "_test_"
-                    ],
-                "invalid": [
-                    "😀",
-                    ],
-                }
+            "valid": ["test123" "_test_"],
+            "invalid": [
+                "😀",
+            ],
+        }
 
         self.addresses = {
-                "valid": [
-                    "192.168.0.1",
-                    "255.255.255.255",
-                    "0.0.0.0"
-                    ],
-                "invalid": [
-                    "192",
-                    "1923",
-                    "192.168",
-                    "1921.168",
-                    "192.168.0",
-                    "192.168.0.-1",
-                    "192.168.0.1111",
-                    ]
-                }
+            "valid": ["192.168.0.1", "255.255.255.255", "0.0.0.0"],
+            "invalid": [
+                "192",
+                "1923",
+                "192.168",
+                "1921.168",
+                "192.168.0",
+                "192.168.0.-1",
+                "192.168.0.1111",
+            ],
+        }
 
     def test_is_valid_email(self):
         """Recursively checks validity of arrays in `self.emails`"""
@@ -66,7 +59,7 @@ class TestValidator(unittest.TestCase):
                         self.assertFalse(is_valid_email(email))
 
     def test_is_valid_name(self):
-        """ Recursively checks the validity of usernames """
+        """Recursively checks the validity of usernames"""
 
         for state in self.user_names:
             for name in self.user_names[state]:
@@ -77,10 +70,10 @@ class TestValidator(unittest.TestCase):
                         self.assertFalse(is_valid_username(name))
 
     def test_is_valid_ip(self):
-        """ Check ipv4 format is valid (recursively).
+        """Check ipv4 format is valid (recursively).
 
-            - this test checks the validity of the *format* ip addresses.
-            - this test does not establish any connections what-so-ever.
+        - this test checks the validity of the *format* ip addresses.
+        - this test does not establish any connections what-so-ever.
         """
 
         for state in self.addresses:

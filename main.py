@@ -45,11 +45,9 @@ def accept_user_input():
         parser = argparse.ArgumentParser(
             description="""Ensure the security of your data by becoming aware of known data breaches."""
         )
+        parser.add_argument("--email", help=" 📧 Scan known breaches for any email")
         parser.add_argument(
-            "--email", help=" 📧 Scan known breaches for any email"
-        )
-        parser.add_argument(
-                "--ip", help=" 🔐 Identify leaks with any ipv4 or ipv6 address"
+            "--ip", help=" 🔐 Identify leaks with any ipv4 or ipv6 address"
         )
         parser.add_argument(
             "-u", "--username", help=" 🔎 Automatically index data for account leaks"
