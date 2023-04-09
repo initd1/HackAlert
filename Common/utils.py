@@ -14,27 +14,39 @@ import requests
 logger = logging.getLogger("")
 
 
-def error_message(errormsg):
-    logger.error(errormsg)
+def error_message(error_msg):
+    """Logs error message; displays `error_msg`
 
+    :param error_msg: Message to display as error with a log level of *error*.
+    """
 
-def exit_message(exitmsg):
-    logger.critical("\033[91m{}\033[0m".format("Fatal Error: " + exitmsg))
-    sys.exit(1)
+    logger.error(error_msg)
 
+def exit_message(exit_msg, error_code=1):
+    """Halt runtime and exit with `error_code` (default=1)
 
-# Function to check if the VT API key is valid
-def check_VTAPIkey(VT_APIKey):
-    # Google IP just for validating key
+    :param exit_msg: Display this message when exiting with a log level of *critical*.
+    """
+
+    logger.critical("\033[91m{}\033[0m".format(f"Fatal Error: {exit_msg}"))
+    sys.exit(error_code)
+
+def check_VTAPIkey(key):
+    """Checks if the VirusTotal API Key is valid.
+
+    :param key: VirusTotal API key as defined (manually) in configuration ini file.
+    :return: The validity of `key`
+    :rtype: bool
+    """
+
+    # Google IP for validating key
     ip = "8.8.8.8"
-    url = "https://www.virustotal.com/api/v3/ip_addresses/" + ip
-    payload = {}
-    headers = {"x-apikey": VT_APIKey}
-    response = requests.request("GET", url, headers=headers, data=payload).text
+    url = f"https://www.virustotal.com/api/v3/ip_addresses/{ip}"
+    headers = {"x-apikey": key}
+    response = requests.request("GET", url, headers=headers, data={}).text
     data = json.loads(response)
+
     if "error" not in data:
-        # Print pretty json response
-        # print(json.dumps(data, indent=4, sort_keys=True))
         logger.info("Virus Total Key Validation: \033[92m{}\033[0m".format("Success"))
         return True
     else:
