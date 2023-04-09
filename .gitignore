@@ -12,6 +12,7 @@ Config/config.ini
 settings.json
 # C extensions
 *.so
+Logs/
 
 # Distribution / packaging
 .Python
