@@ -40,8 +40,8 @@ HIBP_APIKey = 1234567890
 ## Execution
 1. HackAlert Usage:
 ```bash
-python main.py -h
-usage: main.py [-h] [-e EMAIL] [-i IP] [-u USERNAME]
+python hackalert.py -h
+usage: hackalert.py [-h] [-e EMAIL] [-i IP] [-u USERNAME]
 
 Check if the given data has been compromised in a data breach.
 
