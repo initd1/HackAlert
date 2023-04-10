@@ -47,3 +47,19 @@ options:
 2. Example Usage:
 ![image](https://user-images.githubusercontent.com/90045652/230607374-aaa07b2f-7f45-461d-8a0a-7cf5ac58536c.png)
 
+## Tests
+
+To execute tests, please ensure that you have the `pytest` module installed.
+The unittest module is used, however, this is native to python and does not have to be installed.
+To run tests, please ensure that you are in the base directory, where `Tests` and `main.py` is visible.
+
+To run tests with print output:
+```bash
+pytest -s 
+```
+
+To run tests without print output:
+```bash
+pytest
+```
+
