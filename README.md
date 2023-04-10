@@ -47,3 +47,28 @@ options:
 2. Example Usage:
 ![image](https://user-images.githubusercontent.com/90045652/230607374-aaa07b2f-7f45-461d-8a0a-7cf5ac58536c.png)
 
+## Tests
+
+It is important that before you do anything you have the `requirements.txt` file
+installed as it is required for the dependencies that are used in this project.
+
+To install all dependencies listed in this file, run the following:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+To execute tests, please ensure that you have the `pytest` module installed.
+The unittest module is used, however, this is native to python and does not have to be installed.
+To run tests, please ensure that you are in the base directory, where `Tests` and `main.py` is visible.
+
+To run tests with print output:
+```bash
+pytest -s 
+```
+
+To run tests without print output:
+```bash
+pytest
+```
+
