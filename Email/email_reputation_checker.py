@@ -54,7 +54,7 @@ class EmailBreachChecker:
         except Exception as e:
             utils.error_message(e.text)
         if response.status_code == 404:
-            logger.debug("{}".format(colored("No breaches found for this email","green")))
+            logging.debug("{}".format(colored("No breaches found for this email","green")))
             exit()
         data = json.loads(response.text)
         # Validating the response during execution instead of wasting a call for validation

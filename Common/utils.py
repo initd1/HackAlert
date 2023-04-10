@@ -84,7 +84,7 @@ class KeyFetcher:
 
         config = configparser.ConfigParser()
         
-        if config.read('Config/logger.ini'):
+        if config.read('Config/config.ini', encoding='utf-8'):
             pass
         else:
             exit_message("Config file not found")
@@ -101,7 +101,7 @@ class KeyFetcher:
     def getHIBPAPIKey(self):
 
         config = configparser.ConfigParser()
-        if config.read('Config/logger.ini'):
+        if config.read('Config/config.ini', encoding='utf-8'):
             # print("Reading config file...")
             pass
         else:
