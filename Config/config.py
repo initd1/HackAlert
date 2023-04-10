@@ -16,7 +16,7 @@ def get_config(config_file_path):
     config = configparser.ConfigParser()
 
     # read from file
-    config.read(config_file_path)
+    config.read(config_file_path, encoding="utf-8")
     config.__dict__
 
     # read from environment variables

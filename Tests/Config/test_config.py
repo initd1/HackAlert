@@ -4,12 +4,14 @@ from configparser import ConfigParser
 
 class TestConfig(unittest.TestCase):
     def setUp(self):
+        """ Setup is the first method run in the test."""
         self.path = os.path.join('Config/logger.ini')
 
         if not os.path.isdir('Logs'):
             os.mkdir('Logs')
         if not os.path.exists(os.path.join('Logs', 'traceback.log')):
-            with open(os.path.join('Logs', 'traceback.log')) as fp:
+            with open(os.path.join('Logs', 'traceback.log'), 'w') as fp:
+                fp.write("Created traceback.log as part of tests.")
                 fp.close()
 
     def test_config_exists(self):
