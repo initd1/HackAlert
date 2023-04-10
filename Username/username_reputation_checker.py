@@ -5,7 +5,6 @@ import requests
 from termcolor import colored
 
 from Common import utils as utils
-from Common.breach_checker import BreachChecker
 from Common.utils import KeyFetcher
 from Config.config import configure_logging
 
@@ -51,7 +50,8 @@ class usernameBreachChecker:
         try:
             response = requests.get(url, headers=headers, data=payload)
         except Exception as e:
-            utils.error_message(e.text)
+            utils.error_message(str(e))
+            return
         if response.status_code == 404:
             logging.info(colored("No breaches found for this username","green"))
             exit()

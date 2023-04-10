@@ -16,7 +16,7 @@ class IPReputationChecker:
   # Check Virus Total IP reputation
     def checkIPReputationVT(self, ip_address):
         keyfetch_vt = KeyFetcher()
-        vtkey = keyfetch_vt.getVTAPIKey()
+        vtkey: str = keyfetch_vt.getVTAPIKey()  # pyright: ignore
         validator = Validator()
         validator.check_VTAPIkey(vtkey)
 
@@ -24,7 +24,7 @@ class IPReputationChecker:
         # Check IP reputation from Virus Total
         url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip_address
         payload={}
-        headers = {
+        headers: dict[str, str] = {
         'x-apikey': vtkey
         }
         response = requests.request("GET", url, headers=headers, data=payload).text
@@ -45,7 +45,7 @@ class IPReputationChecker:
             response = requests.request("GET", url).text
             if "This IP address has been observed to be associated with malicious activity." in response:
                 logging.info("IP: "+ip+" is malicious")
-                self.bad_ip_list.append(ip)
+                # self.bad_ip_list.append(ip)
             else:
                 logging.info("IP: "+ip+" is not malicious")
 
