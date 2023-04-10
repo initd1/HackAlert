@@ -49,6 +49,15 @@ options:
 
 ## Tests
 
+It is important that before you do anything you have the `requirements.txt` file
+installed as it is required for the dependencies that are used in this project.
+
+To install all dependencies listed in this file, run the following:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
 To execute tests, please ensure that you have the `pytest` module installed.
 The unittest module is used, however, this is native to python and does not have to be installed.
 To run tests, please ensure that you are in the base directory, where `Tests` and `main.py` is visible.
