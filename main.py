@@ -1,7 +1,6 @@
 import argparse
 import json
-import logging
-import logging
+import logger
 import logging.config
 import sys
 import time
