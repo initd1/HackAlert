@@ -1,21 +1,25 @@
+import sys
 import requests
-import json
-from termcolor import colored
-from Common import utils as utils
-from Common.utils import KeyFetcher
-from Config.config import configure_logging
-
+import logging.config
 import logging
+# import logger
+import json
+from Username.username_reputation_checker import usernameBreachChecker
+from termcolor import colored
+from Config.config import configure_logging
+from Common.utils import Validator
+from Common.utils import KeyFetcher
+from Common.breach_checker import BreachChecker
+from Common import utils
 
 configure_logging()
-
 
 class EmailBreachChecker:
     def __init__(self, email):
         self.email = email
 
     # Method to periodically download full breach data from HIBP so it can be 
-    # used to lookup further details of a breach when an IP/Email is found in the breach data
+    # used to lookup further details of a breach when an IP/Email/username is found in the breach data
     def periodicBreachDownloader(self):
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
@@ -33,7 +37,7 @@ class EmailBreachChecker:
             with open('all_breaches.json', 'w') as f:
                 json.dump(breaches, f)
         except Exception as e:
-            utils.error_message(e)
+            utils.error_message(str(e))
 
     # Function to check email for breaches from HIBP
     def checkEmailBreach(self, email):
@@ -50,9 +54,9 @@ class EmailBreachChecker:
             response = requests.get(url, headers=headers, data=payload)
         except Exception as e:
             utils.error_message(str(e))
-            return;
+            return
         if response.status_code == 404:
-            logging.debug("{}".format(colored("No breaches found for this email","green")))
+            logging.info("{}".format(colored("No breaches found for this email","green")))
             exit()
         data = json.loads(response.text)
         # Validating the response during execution instead of wasting a call for validation

@@ -1,12 +1,25 @@
-import json
-import logging
-
+import sys
 import requests
+import logging.config
+import logging
+# import logger
+import json
+# from Username.username_reputation_checker import usernameBreachChecker
 from termcolor import colored
-
-from Common import utils as utils
-from Common.utils import KeyFetcher
 from Config.config import configure_logging
+from Common.utils import Validator
+from Common.utils import KeyFetcher
+from Common.breach_checker import BreachChecker
+from Common import utils
+
+# import sys
+# import json
+# import logging
+# import requests
+# from termcolor import colored
+# from Common import utils as utils
+# from Common.utils import KeyFetcher
+# from Config.config import configure_logging
 
 configure_logging()
 
@@ -16,7 +29,7 @@ class usernameBreachChecker:
         self.username = username
 
     # Method to periodically download full breach data from HIBP so it can be 
-    # used to lookup further details of a breach when an IP/Email is found in the breach data
+    # used to lookup further details of a breach when an IP/Email/Username is found in the breach data
     def periodicBreachDownloader(self):
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
@@ -53,12 +66,12 @@ class usernameBreachChecker:
             utils.error_message(str(e))
             return
         if response.status_code == 404:
-            logging.info(colored("No breaches found for this username","green"))
+            logging.info("{}".format(colored("No breaches found for this username","green")))
             exit()
         data = json.loads(response.text)
         # Validating the response during execution instead of wasting a call for validation
         if 'statusCode' not in data:
-            # print("Query successful")
+            logging.info("Query successful")
             for breach_name in data:
             # print("Breach name: ", breach_name['Name'])
                 with open('all_breaches.json', 'r')  as f:
@@ -68,24 +81,24 @@ class usernameBreachChecker:
                     # print(breaches)
                     for breach in breaches:
                         if 'Name' in breach and breach['Name'] == search_name:
-                            logging.info("\n\n" + colored("Account name:", "blue"), colored(username, "red"))
+                            logging.info("\n\n{}{}".format(colored("Account name:", "blue"), colored(username, "red")))
                             if 'Name' in breach:
-                                logging.info(colored("Breach name:", "blue"), colored(breach_name['Name'], "red"))
+                                logging.info("{} {}".format(colored("Breach name:", "blue"), colored(breach_name['Name'], "red")))
                             if 'Description' in breach:
-                                logging.info(colored("Breach description:", "blue"), colored(breach['Description'], "red"))
+                                logging.info("{} {}".format(colored("Breach description:", "blue"), colored(breach['Description'], "red")))
                             if 'BreachDate' in breach:
-                                logging.info(colored("Breach date:", "blue"), colored(breach['BreachDate'], "white"))
+                                logging.info("{} {}".format(colored("Breach date:", "blue"), colored(breach['BreachDate'], "white")))
                             if 'DataClasses' in breach:
-                                logging.info(colored("Data classes that were part of this breach:", "blue"), colored(breach['DataClasses'], "red"))
+                                logging.info("{} {}".format(colored("Data classes that were part of this breach:", "blue"), colored(breach['DataClasses'], "red")))
                             if 'IsSensitive' in breach and breach['IsSensitive'] == True:
-                                logging.info(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "yellow"))
+                                logging.info("{} {}".format(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "yellow")))
                             if 'IsSensitive' in breach and breach['IsSensitive'] == False:
-                                logging.info(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "green"))
+                                logging.info("{} {}".format(colored("Breach is sensitive:", "blue"), colored(breach['IsSensitive'], "green")))
                             if 'IsVerified' in breach and breach['IsVerified'] == True:
-                                logging.info(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green"))
+                                logging.info("{} {}".format(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "green")))
                             if 'IsVerified' in breach  and breach['IsVerified'] == False:
-                                logging.info(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red"))
-                            logging.info(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
+                                logging.info("{} {}".format(colored("Breach is verified:", "blue"), colored(breach['IsVerified'], "red")))
+                            logging.info("{} {}".format(colored("Number of accounts compromised:", "blue"), colored('{:,}'.format(breach['PwnCount']), "white")))
                         else:
                             pass
         else:

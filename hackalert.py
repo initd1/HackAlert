@@ -2,7 +2,7 @@ import argparse
 import logging
 import logging.config
 import sys
-from colorama import init
+# from colorama import init
 from termcolor import colored
 from Common import utils
 from Common.utils import Validator
@@ -10,10 +10,9 @@ from Config.config import configure_logging
 from Email.email_reputation_checker import EmailBreachChecker
 from IP.ip_reputation_checker import IPReputationChecker
 from Username.username_reputation_checker import usernameBreachChecker
+import logger
 
 
-
-init()
 configure_logging()
 
 def accept_user_input():
@@ -43,7 +42,7 @@ def accept_user_input():
             # Instantiate IPReputationChecker class
             breach_checker = EmailBreachChecker(args.email)
             breach_checker.periodicBreachDownloader()
-            # breach_results = breach_checker.checkEmailBreach(args.email)
+            breach_checker.checkEmailBreach(args.email)
             # print("Email breach checker module results:", breach_results)
             # return args.email
         else:
@@ -75,7 +74,7 @@ def accept_user_input():
             # Instantiate IPReputationChecker class
             breach_checker = usernameBreachChecker(args.username)
             breach_checker.periodicBreachDownloader()
-            # breach_results = breach_checker.checkUsernameBreach(args.username)
+            breach_checker.checkUsernameBreach(args.username)
             # print("username breach checker module results:", breach_results)
             # return args.username
         else:
