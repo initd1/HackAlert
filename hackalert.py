@@ -61,7 +61,7 @@ def accept_user_input():
 
             # Invoke VT IP Checker module
             vtip_results = ip_checker.checkIPReputationVT(args.ip)
-            logging.info("Virus Total results: ", vtip_results)
+            # logging.info("Virus Total results: ", vtip_results)
 
             # Invoke OTX IP Checker module
             # otx_results = ...
