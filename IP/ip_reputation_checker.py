@@ -8,12 +8,13 @@ from Config.config import configure_logging
 
 configure_logging()
 
+
 # IPReputationChecker class inherits methods from BreachChecker super class
 class IPReputationChecker:
     def __init__(self, ip_address):
         self.ip_address = ip_address
 
-  # Check Virus Total IP reputation
+    # Check Virus Total IP reputation
     def checkIPReputationVT(self, ip_address):
         keyfetch_vt = KeyFetcher()
         vtkey: str = keyfetch_vt.getVTAPIKey()  # pyright: ignore
@@ -22,16 +23,14 @@ class IPReputationChecker:
 
         logging.info("Checking IP reputation from Virus Total for ip:", ip_address)
         # Check IP reputation from Virus Total
-        url = "https://www.virustotal.com/api/v3/ip_addresses/"+ip_address
-        payload={}
-        headers: dict[str, str] = {
-        'x-apikey': vtkey
-        }
+        url = "https://www.virustotal.com/api/v3/ip_addresses/" + ip_address
+        payload = {}
+        headers: dict[str, str] = {"x-apikey": vtkey}
         response = requests.request("GET", url, headers=headers, data=payload).text
         data = json.loads(response)
         # pretty print full json response
         # print(json.dumps(data, indent=4, sort_keys=True))
-        results=data['data']['attributes']['total_votes']
+        results = data["data"]["attributes"]["total_votes"]
         return results
 
     # Check Talos IP reputation
@@ -41,13 +40,17 @@ class IPReputationChecker:
         # User requests to check IP reputation from Cisco Talos
         logging.info("Checking IP reputation from Cisco Talos")
         for ip in ip_list:
-            url = "https://talosintelligence.com/reputation_center/lookup?search="+ip
+            url = "https://talosintelligence.com/reputation_center/lookup?search=" + ip
             response = requests.request("GET", url).text
-            if "This IP address has been observed to be associated with malicious activity." in response:
-                logging.info("IP: "+ip+" is malicious")
+            if (
+                "This IP address has been observed to be associated with malicious activity."
+                in response
+            ):
+                logging.info("IP: " + ip + " is malicious")
                 # self.bad_ip_list.append(ip)
             else:
-                logging.info("IP: "+ip+" is not malicious")
+                logging.info("IP: " + ip + " is not malicious")
+
 
 # # ==================
 #     def queryIP(apikey, ip_quad, bad_ip_list):
