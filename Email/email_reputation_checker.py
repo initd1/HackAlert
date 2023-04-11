@@ -2,10 +2,7 @@ import sys
 import requests
 import logging.config
 import logging
-
-# import logger
 import json
-from Username.username_reputation_checker import usernameBreachChecker
 from termcolor import colored
 from Config.config import configure_logging
 from Common.utils import Validator
@@ -20,9 +17,18 @@ class EmailBreachChecker:
     def __init__(self, email):
         self.email = email
 
-    # Method to periodically download full breach data from HIBP so it can be
-    # used to lookup further details of a breach when an IP/Email/username is found in the breach data
     def periodicBreachDownloader(self):
+        """
+        Method to periodically download full breach data from HIBP so it can be
+        used to lookup further details of a breach when an IP/Email/Username is found in the breach data
+
+        Args:
+            none
+        Returns:
+            _null_: No return value
+        Output:
+            all_breaches.json: A JSON file containing all the breaches from HIBP
+        """
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
         url = "https://haveibeenpwned.com/api/v3/breaches"
@@ -39,10 +45,19 @@ class EmailBreachChecker:
             with open("all_breaches.json", "w") as f:
                 json.dump(breaches, f)
         except Exception as e:
-            utils.error_message(str(e))
+            logging.error(str(e))
 
-    # Function to check email for breaches from HIBP
     def checkEmailBreach(self, email):
+        """
+        Function to check email for breaches from HIBP
+
+        Args:
+            _email_ (_type_): Email ID to check for breaches
+        Returns:
+            _null_: No return value
+        Output:
+            _terminal output_: Prints the breaches found for the email ID along with details of each breach
+        """
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/" + email
@@ -55,7 +70,7 @@ class EmailBreachChecker:
         try:
             response = requests.get(url, headers=headers, data=payload)
         except Exception as e:
-            utils.error_message(str(e))
+            logging.error(str(e))
             return
         if response.status_code == 404:
             logging.info(
@@ -72,7 +87,6 @@ class EmailBreachChecker:
                     search_name = breach_name["Name"]
                     # print("Searching for breach name: ", search_name)
                     breaches = json.load(f)
-                    # print(breaches)
                     for breach in breaches:
                         if "Name" in breach and breach["Name"] == search_name:
                             logging.info(
@@ -146,7 +160,6 @@ class EmailBreachChecker:
                                         colored(breach["IsVerified"], "red"),
                                     )
                                 )
-                            # print(colored("Number of accounts compromised:", "blue"), colored(breach['PwnCount'], "white"))
                             logging.info(
                                 "{} {}".format(
                                     colored("Number of accounts compromised:", "blue"),
@@ -156,4 +169,4 @@ class EmailBreachChecker:
                         else:
                             pass
         else:
-            utils.error_message(data["message"])
+            logging.error(data["message"])

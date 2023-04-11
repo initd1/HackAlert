@@ -2,11 +2,7 @@ import sys
 import requests
 import logging.config
 import logging
-
-# import logger
 import json
-
-# from Username.username_reputation_checker import usernameBreachChecker
 from termcolor import colored
 from Config.config import configure_logging
 from Common.utils import Validator
@@ -14,26 +10,25 @@ from Common.utils import KeyFetcher
 from Common.breach_checker import BreachChecker
 from Common import utils
 
-# import sys
-# import json
-# import logging
-# import requests
-# from termcolor import colored
-# from Common import utils as utils
-# from Common.utils import KeyFetcher
-# from Config.config import configure_logging
-
 configure_logging()
 
 
-# usernameReputationChecker class inherits methods from BreachChecker super class
 class usernameBreachChecker:
     def __init__(self, username):
         self.username = username
 
-    # Method to periodically download full breach data from HIBP so it can be
-    # used to lookup further details of a breach when an IP/Email/Username is found in the breach data
     def periodicBreachDownloader(self):
+        """
+        Method to periodically download full breach data from HIBP so it can be
+        used to lookup further details of a breach when an IP/Email/Username is found in the breach data
+
+        Args:
+            none
+        Returns:
+            _null_: No return value
+        Output:
+            all_breaches.json: A JSON file containing all the breaches from HIBP
+        """
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
         url = "https://haveibeenpwned.com/api/v3/breaches"
@@ -50,10 +45,19 @@ class usernameBreachChecker:
             with open("all_breaches.json", "w") as f:
                 json.dump(breaches, f)
         except Exception as e:
-            utils.error_message(str(e))
+            logging.error(str(e))
 
-    # Function to check username for breaches from HIBP
     def checkUsernameBreach(self, username):
+        """
+        Function to check username of any account [social media, websites etc] for breaches from HIBP
+
+        Args:
+            _username_ (_type_): Username to check for breaches
+        Returns:
+            _null_: No return value
+        Output:
+            _terminal output_: Prints the breaches found for the username along with details of each breach
+        """
         keyfetcher = KeyFetcher()
         hibp_key = keyfetcher.getHIBPAPIKey()
         url = "https://haveibeenpwned.com/api/v3/breachedaccount/" + username
@@ -66,7 +70,7 @@ class usernameBreachChecker:
         try:
             response = requests.get(url, headers=headers, data=payload)
         except Exception as e:
-            utils.error_message(str(e))
+            logging.error(str(e))
             return
         if response.status_code == 404:
             logging.info(
@@ -166,4 +170,4 @@ class usernameBreachChecker:
                         else:
                             pass
         else:
-            utils.error_message(data["message"])
+            logging.error(data["message"])

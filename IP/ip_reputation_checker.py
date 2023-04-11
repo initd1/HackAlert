@@ -14,7 +14,6 @@ from Common import utils
 configure_logging()
 
 
-# IPReputationChecker class inherits methods from BreachChecker super class
 class IPReputationChecker:
     def __init__(self, ip_address):
         self.ip_address = ip_address
@@ -28,13 +27,16 @@ class IPReputationChecker:
 
         Returns:
             _null_: No return value
-        """        
+
+        Output:
+
+        """
         keyfetch_vt = KeyFetcher()
         vtkey: str = keyfetch_vt.getVTAPIKey()  # pyright: ignore
         validator = Validator()
         validator.check_VTAPIkey(vtkey)
         logging.info(
-            "\n\n{}{}".format(
+            "{}{}".format(
                 colored("Checking IP reputation from Virus Total for ip: ", "blue"),
                 colored(ip_address, "red"),
             )
@@ -44,7 +46,6 @@ class IPReputationChecker:
         headers: dict[str, str] = {"x-apikey": vtkey}
         response = requests.request("GET", url, headers=headers, data=payload).text
         data = json.loads(response)
-        # pretty print full json response
         print(
             json.dumps(
                 data["data"]["attributes"]["total_votes"], indent=4, sort_keys=True
