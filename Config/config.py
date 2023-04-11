@@ -39,7 +39,7 @@ def get_logging_config(file_location="Config/logger.ini"):
         open(file_location, "r")
     except FileNotFoundError:
         logging.critical(f"File location invalid: {file_location}")
-        sys.exit(1)
+        raise FileNotFoundError
 
     config = get_config('Config/logger.ini')
     return config
