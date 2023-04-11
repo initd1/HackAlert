@@ -60,6 +60,7 @@ To run tests without print output:
 ```bash
 pytest
 ```
+> **Warning** pytest will not run if python site-packages are not already in your global path!
 
 ## Execution
 1. HackAlert Usage:
