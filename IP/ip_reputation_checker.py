@@ -46,7 +46,7 @@ class IPReputationChecker:
         headers: dict[str, str] = {"x-apikey": vtkey}
         response = requests.request("GET", url, headers=headers, data=payload).text
         data = json.loads(response)
-        print(
+        logging.info(
             json.dumps(
                 data["data"]["attributes"]["total_votes"], indent=4, sort_keys=True
             )

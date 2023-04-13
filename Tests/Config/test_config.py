@@ -12,7 +12,7 @@ class TestConfig(unittest.TestCase):
             os.mkdir("Logs")
         if not os.path.exists(os.path.join("Logs", "traceback.log")):
             with open(os.path.join("Logs", "traceback.log"), "w") as fp:
-                fp.write("Created traceback.log as part of tests.")
+                fp.write("Created traceback.log as part of tests.\n")
                 fp.close()
 
     def test_config_exists(self):

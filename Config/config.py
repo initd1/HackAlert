@@ -14,7 +14,6 @@ def get_config(config_file_path):
     :rtype: dict
     """
     config = configparser.ConfigParser()
-
     # read from file
     config.read(config_file_path, encoding="utf-8")
     config.__dict__
@@ -53,7 +52,7 @@ def configure_logging():
     path = os.path.join("Config/logger.ini")
 
     if not os.path.isdir("Logs"):
-        os.mkdir("Logs")
+        os.makedirs("Logs")
     if not os.path.exists(os.path.join("Logs", "traceback.log")):
         with open(os.path.join("Logs", "traceback.log"), "w") as fp:
             fp.write("Created traceback.log as part of tests.")
@@ -67,7 +66,7 @@ def configure_logging():
 
     # Set up console handler
     console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.DEBUG)
+    console_handler.setLevel(logging.WARNING)
     console_handler.setFormatter(log_format)
     
     # Set up file handler
