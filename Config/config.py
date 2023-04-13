@@ -20,10 +20,10 @@ def get_config(config_file_path):
     config.__dict__
 
     # read from environment variables
-    for key in config['ENVIRONMENT']:
+    for key in config["ENVIRONMENT"]:
         env_var = os.environ.get(key)
         if env_var is not None:
-            config['ENVIRONMENT'][key] = env_var
+            config["ENVIRONMENT"][key] = env_var
 
     return config
 
@@ -41,7 +41,7 @@ def get_logging_config(file_location="Config/logger.ini"):
         logging.critical(f"File location invalid: {file_location}")
         sys.exit(1)
 
-    config = get_config('Config/logger.ini')
+    config = get_config("Config/logger.ini")
     return config
 
 

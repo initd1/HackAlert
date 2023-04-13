@@ -7,18 +7,17 @@ class Formatter(logging.Formatter):
         self.levels = levels or {}
 
     def format(self, record):
-        record.levelprefix = self.levels.get(record.levelno, '')
-        emoji = ''
+        record.levelprefix = self.levels.get(record.levelno, "")
+        emoji = ""
         if record.levelno == logging.CRITICAL:
-            emoji = '💣'
+            emoji = "💣"
         elif record.levelno == logging.ERROR:
-            emoji = '🔥'
+            emoji = "🔥"
         elif record.levelno == logging.WARNING:
-            emoji = '⚠️'
+            emoji = "⚠️"
         elif record.levelno == logging.INFO:
-            emoji = 'ℹ️'
+            emoji = "ℹ️"
         elif record.levelno == logging.DEBUG:
-            emoji = '🔍'
+            emoji = "🔍"
         record.emoji = emoji
         return super().format(record)
-
