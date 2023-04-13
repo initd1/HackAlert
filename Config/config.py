@@ -68,7 +68,7 @@ def configure_logging():
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.WARNING)
     console_handler.setFormatter(log_format)
-    
+
     # Set up file handler
     file_handler = logging.FileHandler(
         logging_config["handler_file"]["args"],
@@ -81,7 +81,7 @@ def configure_logging():
     # Add handlers to root logger
     logging.root.addHandler(console_handler)
     logging.root.addHandler(file_handler)
-    
+
     # Set root logger level
     logging.root.setLevel(logging.DEBUG)
     return logging_config

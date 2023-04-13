@@ -21,7 +21,7 @@ class TestConfig(unittest.TestCase):
     def test_config_is_valid(self):
         parser = ConfigParser()
         if self.test_config_exists:
-            parser.read(self.path, encoding='utf-8')
+            parser.read(self.path, encoding="utf-8")
         # Check if the required sections are present in the config
         self.assertIn("formatters", parser.sections())
         self.assertIn("handler_console", parser.sections())
