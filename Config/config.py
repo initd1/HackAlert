@@ -50,4 +50,39 @@ def configure_logging():
     Configure logging for the application.
     """
     logging_config = get_logging_config()
+    path = os.path.join("Config/logger.ini")
+
+    if not os.path.isdir("Logs"):
+        os.mkdir("Logs")
+    if not os.path.exists(os.path.join("Logs", "traceback.log")):
+        with open(os.path.join("Logs", "traceback.log"), "w") as fp:
+            fp.write("Created traceback.log as part of tests.")
+            fp.close()
+
+    # Define log format
+    log_format = logging.Formatter(
+        fmt="%(asctime)s %(levelname)-8s %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    # Set up console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_handler.setFormatter(log_format)
+    
+    # Set up file handler
+    file_handler = logging.FileHandler(
+        logging_config["handler_file"]["args"],
+        mode=logging_config["handler_file"]["mode"],
+        encoding=logging_config["handler_file"]["encoding"],
+    )
+    file_handler.setLevel(logging.DEBUG)
+    file_handler.setFormatter(log_format)
+
+    # Add handlers to root logger
+    logging.root.addHandler(console_handler)
+    logging.root.addHandler(file_handler)
+    
+    # Set root logger level
+    logging.root.setLevel(logging.DEBUG)
     return logging_config
