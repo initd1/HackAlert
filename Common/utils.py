@@ -36,12 +36,23 @@ class Validator:
         else:
             return False
 
-    def is_valid_ip(self, ip):
+    def is_valid_ip(self, ip) -> bool:
+        """
+        Regex identifier the validity of `ip`.
+        """
+        valid = True
         try:
             ipaddress.ip_address(ip)
-            return True
-        except ValueError as err:
-            return False
+            logging.debug(f"{ip} is a valid ip address")
+        except ValueError:
+            valid = False
+        finally:
+            match valid:
+                case True:
+                    logging.debug(f"{ip} is a valid ip address :)")
+                case False:
+                    logging.debug(f"{ip} isn\'t valid ip address :(")
+            return valid
 
     def is_valid_username(self, username):
          # Verify username format
