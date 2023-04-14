@@ -5,15 +5,17 @@
 # TODO: Logging to file
 # TODO: Extend error module to log to error log file in error_message function
 
-import requests
-import json
-import re
-import ipaddress
-from termcolor import colored
 import configparser
-from Config.config import configure_logging
+import ipaddress
+import json
 import logging
+import re
+import sys
 
+import requests
+from termcolor import colored
+
+from Config.config import configure_logging
 
 configure_logging()
 
