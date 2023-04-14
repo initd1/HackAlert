@@ -1,9 +1,14 @@
-# Utils file to:
-# fetch the relevant API keys of different services
-# validate keys
-# process non critical and fatal errors
-# TODO: Logging to file
-# TODO: Extend error module to log to error log file in error_message function
+"""
+HackAlert
+module: utils.py
+license: Apache 2.0
+
+This file fetches relevant API keys from different services.
+
+TODO:
+ - Logging to file
+ - Log to error_log file <error_message()>
+"""
 
 import configparser
 import ipaddress
