@@ -3,14 +3,14 @@
 # validate keys
 # process non critical and fatal errors
 # TODO: Logging to file
+# TODO: Extend error module to log to error log file in error_message function
+
 import requests
 import json
 import re
 import ipaddress
 from termcolor import colored
-import sys
 import configparser
-from . import utils
 from Config.config import configure_logging
 import logging
 
@@ -20,7 +20,6 @@ configure_logging()
 
 def error_message(errormsg):
     logging.error(colored("Error: " + errormsg, "red"))
-    # TODO: Extend error module to log to error log file
     # print(errormsg)
 
 
@@ -40,11 +39,26 @@ class Validator:
             return False
 
     def is_valid_ip(self, ip):
+        """Returns the validity of `ip` through a series of syntax checks.
+
+        :param ip: IP address. Can be ipv4 or ipv6.
+        :type ip: str
+        :return: Validity of `ip`
+        :rtype: bool
+        """
+        valid = True
         try:
             ipaddress.ip_address(ip)
-            return True
-        except ValueError as err:
-            return False
+            logging.debug(f"{ip} is a valid ip address")
+        except ValueError:
+            valid = False
+        finally:
+            match valid:
+                case True:
+                    logging.debug(f"{ip} is a valid ip address :)")
+                case False:
+                    logging.debug(f"{ip} isn\'t valid ip address :(")
+            return valid
 
     def is_valid_username(self, username):
         # Verify username format
