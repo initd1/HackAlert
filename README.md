@@ -1,5 +1,7 @@
 # HackAlert
 [![CodeQL](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql)
+[![Twitter Follow](https://img.shields.io/twitter/follow/initd15?style=social)](https://twitter.com/initd15)
+![GitHub Repo stars](https://img.shields.io/github/stars/initd1/HackAlert?style=social)
 
 ## Installation instructions
 1. Clone the github repository
