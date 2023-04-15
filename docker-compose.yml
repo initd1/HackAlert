@@ -1,0 +1,9 @@
+version: "2"
+
+services:
+  hackalert:
+    container_name: hackalert
+    build: ./
+    volumes:
+      - "./Logs:/hackalert/Logs"
+      - "./Config/config.ini:/hackalert/Config/config.ini"
