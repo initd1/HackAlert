@@ -1,4 +1,5 @@
 # HackAlert
+[![CodeQL](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql)
 
 ## Installation instructions
 1. Clone the github repository
@@ -80,6 +81,7 @@ options:
 ```
 
 2. Example Usage:
-![image](https://user-images.githubusercontent.com/90045652/230607374-aaa07b2f-7f45-461d-8a0a-7cf5ac58536c.png)
+![image](https://user-images.githubusercontent.com/90045652/231768992-80b71df7-b45c-4557-937a-8b46b8274086.png)
+
 
 
