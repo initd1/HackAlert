@@ -3,7 +3,7 @@
 
   
 [![Build and Test](https://github.com/initd1/HackAlert/actions/workflows/auto-build-test.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/auto-build-test.yml)
-[![Docker Integration](https://github.com/initd1/HackAlert/actions/workflows/docker-integration.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/docker-integration.yml)
+[![Docker Integration](https://github.com/initd1/HackAlert/actions/workflows/docker-integrations.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/docker-integrations.yml)
 [![CodeQL](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql)
 ![GitHub Repo stars](https://img.shields.io/github/stars/initd1/HackAlert?style=social)
 [![Twitter Follow](https://img.shields.io/twitter/follow/initd15?style=social)](https://twitter.com/initd15)
