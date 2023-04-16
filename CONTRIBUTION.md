@@ -1,9 +1,92 @@
 # Contributing to HackAlert
 
 Thank you for your interest in contributing to HackAlert! We appreciate your help in making our product better and more secure.
+
 ## About HackAlert
 
 HackAlert is a tool that scans the internet for your online persona, including financial, social, and personal accounts, to detect data breaches or hacks. With real-time notifications via text or email, you can take action before it's too late. **Stay safe and secure with HackAlert.**
+
+## Contribution Guidelines
+1. Fork the HackAlert repository by clicking the "Fork" button on the top right of the project page.
+2. Clone the repository to your local machine using the following command:
+```
+git clone https://github.com/<YOUR-GITHUB-USERNAME>/HackAlert
+```
+3. Install the project requirements
+```
+pip install -r requirements.txt
+```
+4. Install pre-commit hooks
+```
+pre-commit install
+```
+5. Create a new branch for your changes using the following command:
+```
+git checkout -b "branch-name"
+```
+6. Make your changes to the code.
+> ### Environment Set Up
+>- Install Python and pip in your environment
+>- Install **virtualenv**
+>
+>```bash
+>pip install virtualenv
+>```
+>- Create a virtual environment
+>```bash
+>virtualenv <environment-name>
+>```
+>- Activate the virtual environment
+>
+>__Mac or Linux__
+>
+>```bash
+>
+>source <environment-name>/bin/activate
+>```
+>__Windows__
+>
+>```bash
+><environment-name>\Scripts\activate.bat
+>```
+>- Install the required packages in the virtual environment
+>
+>```python
+>
+>    pip install -r requirements.txt
+>```
+
+7. Add the changes to the staging area using the following command:
+```
+git add .
+```
+8. Commit the changes with a meaningful commit message using the following command:
+```
+git commit -m "your commit message"
+```
+9. Push the changes to your forked repository using the following command:
+```
+git push origin branch-name
+```
+10. Go to the GitHub website and navigate to your forked repository.
+11. Click the "New pull request" button.
+12. Select the branch you just pushed to and the branch you want to merge into on the original repository.
+13. Add a description of your changes and click the "Create pull request" button.
+14. Wait for the project maintainer to review your changes and provide feedback.
+15. Make any necessary changes based on feedback and repeat steps 5-12 until your changes are accepted and merged into the main project.
+16. Once your changes are merged, you can update your forked repository and local copy of the repository with the following commands:
+
+```
+git fetch upstream
+git checkout master
+git merge upstream/master
+```
+Finally, delete the branch you created with the following command:
+```
+git branch -d branch-name
+```
+
+
 ## Technical Development Guidelines
 ### Branch Naming Conventions
 
@@ -23,49 +106,7 @@ When creating branches, please follow these naming conventions:
   6. A tag by the same name will be created post-release.
   7. The release branch will be locked and serve as the Last Known Good for any future work.
 
-### Environment Set-up
 
-To set up your development environment, please follow these steps:
-
-1. Clone the GitHub repository
-
-```bash
-
-git clone https://github.com/initd1/HackAlert.git
-```
-2. Install Python and pip in your environment
-
-3. Install **virtualenv**
-
-```bash
-pip install virtualenv
-```
-4. Create a virtual environment
-
-```bash
-
-virtualenv <environment-name>
-```
-5. Activate the virtual environment
-
-__Mac or Linux__
-
-```bash
-
-source <environment-name>/bin/activate
-```
-__Windows__
-
-```bash
-
-<environment-name>\Scripts\activate.bat
-```
-6. Install the required packages in the virtual environment
-
-```python
-
-    pip install -r requirements.txt
-```
 ## Testing
 
 It is important that before you do anything, you have the `requirements.txt` file installed as it is required for the dependencies that are used in this project.
@@ -86,12 +127,3 @@ To run tests with print output:
 
 pytest -s
 ```
-To run tests without print output:
-
-```bash
-
-pytest
-```
-## Docker Containerization
-
-We suggest packaging the code in a lightweight Docker container like python-slim and running the code from it. That way, the environment is set and can be run from any environment that supports Docker.
