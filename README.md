@@ -1,11 +1,12 @@
-# HackAlert 
+<p align="center"><img src=https://user-images.githubusercontent.com/90045652/232296629-b5dbaa71-761f-4195-a39e-03108f89bc52.png></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/90045652/232291714-09f96b51-a315-4f3e-80df-a386d4e4e98b.png" width="500"/><p>
 
+  
 [![Build and Test](https://github.com/initd1/HackAlert/actions/workflows/auto-build-test.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/auto-build-test.yml)
 [![Build and Push Docker Image](https://github.com/initd1/HackAlert/actions/workflows/docker-build-push.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/docker-build-push.yml)
 [![CodeQL](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql)
 ![GitHub Repo stars](https://img.shields.io/github/stars/initd1/HackAlert?style=social)
-
-## [![Twitter Follow](https://img.shields.io/twitter/follow/initd15?style=social)](https://twitter.com/initd15)
+[![Twitter Follow](https://img.shields.io/twitter/follow/initd15?style=social)](https://twitter.com/initd15)
 
 ## Installation instructions
 1. Clone the github repository
