@@ -1,12 +1,20 @@
+<!-- Project Name -->
 <p align="center"><img src=https://user-images.githubusercontent.com/90045652/232296629-b5dbaa71-761f-4195-a39e-03108f89bc52.png></p>
+<!-- Logo -->
 <p align="center"><img src="https://user-images.githubusercontent.com/90045652/232291714-09f96b51-a315-4f3e-80df-a386d4e4e98b.png" width="500"/><p>
 
-  
+<!-- Badges -->
 [![Build and Test](https://github.com/initd1/HackAlert/actions/workflows/auto-build-test.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/auto-build-test.yml)
 [![Docker Integration](https://github.com/initd1/HackAlert/actions/workflows/docker-integrations.yml/badge.svg)](https://github.com/initd1/HackAlert/actions/workflows/docker-integrations.yml)
 [![CodeQL](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/initd1/HackAlert/actions/workflows/github-code-scanning/codeql)
 ![GitHub Repo stars](https://img.shields.io/github/stars/initd1/HackAlert?style=social)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/initd1/HackAlert?color=blue&label=Release&sort=semver)
+
+**Socials:**
+  
 [![Twitter Follow](https://img.shields.io/twitter/follow/initd15?style=social)](https://twitter.com/initd15)
+[![Discord](https://img.shields.io/discord/1097861453622542450?label=Discord)](https://discord.com/channels/1097861453622542450/1097861454209749034)
+
 
 ## Installation instructions
 1. Clone the github repository
@@ -19,7 +27,7 @@
 `pip install virtualenv`
 3. Create virtual environment
 `virtualenv <environment-name>`
-4. Activate virutal environment  
+4. Activate virtual environment  
 __Mac or Linux__
 ```bash
 source <environment-name>/bin/activate
