@@ -18,6 +18,8 @@ configure_logging()
 
 
 def accept_user_input():
+    """Handle command line input and match output accordingly."""
+
     # Instantiate the Validator class
     validator = Validator()
 
