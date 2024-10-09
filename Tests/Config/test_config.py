@@ -1,7 +1,13 @@
 import os
 import unittest
-from configparser import ConfigParser
 
+import sys
+
+sys.path.insert(0, os.getcwd())
+
+from requests.api import get # type: ignore
+from Config.config import configure_logging, get_config, get_logging_config
+from configparser import ConfigParser
 
 class TestConfig(unittest.TestCase):
     def setUp(self):
@@ -28,8 +34,24 @@ class TestConfig(unittest.TestCase):
 
         # Check if the required keys are present in the sections
         self.assertIn("keys", parser["formatters"])
-        self.assertIn("level", parser["handler_console"])
+        self.assertIn('keys', parser['formatters'])
+        self.assertIn('level', parser['handler_console'])
 
+    def test_directory_structure(self):
+        """ Check that config module is where it's supposed to be """ 
+
+        self.assertTrue(os.path.exists(os.path.join("Config", "config.py")))
+
+    def test_get_config(self):
+        self.assertIn("property", get_logging_config.__builtins__.keys())
+
+    def test_get_logging_config(self):
+        with self.assertRaises(FileNotFoundError) as _:
+            get_logging_config("random_path.txt")
+        self.assertIsInstance(get_logging_config(), ConfigParser)
+
+    def test_configure_logging(self):
+        self.assertIsInstance(configure_logging(), ConfigParser)
 
 if __name__ == "__main__":
     unittest.main()
