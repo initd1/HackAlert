@@ -1,7 +1,8 @@
 import configparser
 
 config = configparser.ConfigParser()
-config.read("Config/logger.ini")
+def read_config():
+    return config.read('Config/logger.ini')
 
 # check if the required sections are present
 if "loggers" not in config.sections() or "handlers" not in config.sections():
@@ -20,3 +21,6 @@ if not isinstance(config.getint("handlers", "console.level"), int):
 
 if not isinstance(config.getint("loggers", "keys.suspicious.level"), int):
     raise ValueError("Invalid value for keys.suspicious.level in config.ini")
+
+if __name__ == "__main__":
+    read_config()
